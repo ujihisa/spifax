@@ -4,15 +4,14 @@ FIXME
 
 ## Prerequisites
 
-You will need [Leiningen][] 2.0.0 or above installed.
+* leiningen 2.5.0+
+* spigot 1.9.2 (see below)
 
-[leiningen]: https://github.com/technomancy/leiningen
+## How to run the minecraft server
 
-## Running
-
-To start a web server for the application, run:
-
-    lein ring server
+1. Prepare `spigot-1.9.2.jar` https://www.spigotmc.org/wiki/buildtools/
+2. Install it with `lein deploy localrepo1 org.spigotmc/spigot 1.9.2 spigot-1.9.2.jar`
+3. `lein ring server`
 
 ## Licence
 
