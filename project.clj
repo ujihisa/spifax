@@ -1,6 +1,8 @@
 (defproject spifax "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
+  :license {:name "GPL3 or any later versions"
+            :url "http://www.gnu.org/licenses/gpl-3.0.en.html"}
   :min-lein-version "2.0.0"
   :repositories {"spigot-repo"
                  "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"}

@@ -14,6 +14,8 @@ To start a web server for the application, run:
 
     lein ring server
 
-## License
+## Licence
 
-Copyright © 2016 FIXME
+Copyright (c) 2016 Tatsuhiro Ujihisa
+
+GPL version 3 or any later versions.
