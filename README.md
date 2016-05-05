@@ -11,7 +11,7 @@ FIXME
 
 1. Prepare `spigot-1.9.2.jar` https://www.spigotmc.org/wiki/buildtools/
 2. Install it with `lein deploy localrepo1 org.spigotmc/spigot 1.9.2 spigot-1.9.2.jar`
-3. `lein ring server`
+3. `lein ring server-headless`
 
 ## Licence
 
