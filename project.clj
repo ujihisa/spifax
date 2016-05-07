@@ -17,7 +17,8 @@
                  [org.spigotmc/spigot "1.9.2"]
                  [clj-http "3.0.1"]]
   :plugins [[lein-ring "0.9.7"]]
-  :ring {:handler spifax.handler/app}
+  :ring {:init spifax.core/init
+         :handler spifax.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.0"]]}})
