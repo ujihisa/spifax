@@ -2,7 +2,7 @@
   (:import [org.bukkit.craftbukkit Main]
            [org.bukkit Bukkit]
            [org.bukkit.event Listener])
-  #_ (:require ))
+  (:require [spifax.events]))
 
 (defn- start
   "It's called right after minecraft server is ready"
