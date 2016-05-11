@@ -4,10 +4,15 @@
            [org.bukkit.event Listener])
   (:require [spifax.events]))
 
+(defn- register-all-events [plugin-manager]
+  (prn 'register-all-events plugin-manager))
+
 (defn- start
   "It's called right after minecraft server is ready"
   []
-  (prn :server-ready))
+  (prn :server-ready)
+  (let [pm (-> server .getPluginManager)]
+    (register-all-events pm)))
 
 (defn init
   "spifax.core/init is the ring server init, registered at project.clj"
