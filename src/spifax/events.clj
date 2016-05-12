@@ -92,10 +92,10 @@
     org.bukkit.event.inventory.InventoryOpenEvent
     org.bukkit.event.inventory.InventoryPickupItemEvent
     org.bukkit.event.inventory.PrepareItemCraftEvent
-    org.bukkit.event.painting.PaintingBreakByEntityEvent
-    org.bukkit.event.painting.PaintingBreakEvent
-    org.bukkit.event.painting.PaintingEvent
-    org.bukkit.event.painting.PaintingPlaceEvent
+    #_ org.bukkit.event.painting.PaintingBreakByEntityEvent
+    #_ org.bukkit.event.painting.PaintingBreakEvent
+    #_ org.bukkit.event.painting.PaintingEvent
+    #_ org.bukkit.event.painting.PaintingPlaceEvent
     org.bukkit.event.player.AsyncPlayerChatEvent
     org.bukkit.event.player.AsyncPlayerPreLoginEvent
     org.bukkit.event.player.PlayerAchievementAwardedEvent
