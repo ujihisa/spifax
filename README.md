@@ -13,6 +13,10 @@ FIXME
 2. Install it with `lein deploy localrepo1 org.spigotmc/spigot 1.9.2 spigot-1.9.2.jar`
 3. `lein ring server-headless`
 
+## Development Notes
+
+* https://embed.gyazo.com/c77decf6af119756123d87ffbb4b4510.png
+
 ## Licence
 
 Copyright (c) 2016 Tatsuhiro Ujihisa
