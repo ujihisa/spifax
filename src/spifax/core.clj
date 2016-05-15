@@ -69,5 +69,7 @@
       (recur (try (Bukkit/getServer) (catch Exception e nil))))))
 
 (try
-  (-> (Bukkit/getServer) (.getPluginManager) (start))
-  (catch Exception e (.printStackTrace e)))
+  (if-let [server (Bukkit/getServer)]
+    (-> server (.getPluginManager) (start))
+    (prn :server-not-ready))
+  (catch Exception e e))
