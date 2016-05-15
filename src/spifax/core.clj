@@ -45,10 +45,9 @@
 
 (defn- start
   "It's called right after minecraft server is ready"
-  []
+  [pm]
   (prn :server-ready)
-  (let [pm (-> server .getPluginManager)]
-    (register-all-events pm)))
+  (register-all-events pm))
 
 (defn init
   "spifax.core/init is the ring server init, registered at project.clj"
@@ -62,5 +61,5 @@
     (if server
       (let [pm (-> server .getPluginManager)
             command-map (-> server .getCommandMap)]
-        (start))
+        (start pm))
       (recur (try (Bukkit/getServer) (catch Exception e nil))))))
