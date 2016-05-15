@@ -16,6 +16,8 @@
                  [org.spigotmc/spigot-api "1.9.4-R0.1-SNAPSHOT"]
                  [org.spigotmc/spigot "1.9.4"]
                  [clj-http "3.0.1"]
+                 ; I don't know why, but you can't let `sugot` fetch `spigot` and `spigot-api`,
+                 ; otherwise you'll get a runtime error at ring bootup
                  [sugot "1.0" :exclusions [com.google.guava/guava
                                            com.google.code.gson/gson
                                            clj-http]]]
