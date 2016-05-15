@@ -10,10 +10,15 @@
                  "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
                  "localrepo1"
                  "file://myrepo"}
-  :dependencies [[sugot "1.0" :exclusions [com.google.guava/guava
-                                           com.google.code.gson/gson]]
+  :dependencies [[org.clojure/clojure "1.8.0"]
                  [compojure "1.5.0"]
-                 [ring/ring-defaults "0.2.0"]]
+                 [ring/ring-defaults "0.2.0"]
+                 [org.spigotmc/spigot-api "1.9.4-R0.1-SNAPSHOT"]
+                 [org.spigotmc/spigot "1.9.4"]
+                 [clj-http "3.0.1"]
+                 [sugot "1.0" :exclusions [com.google.guava/guava
+                                           com.google.code.gson/gson
+                                           clj-http]]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:init spifax.core/init
          :handler spifax.handler/app}
