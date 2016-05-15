@@ -68,3 +68,7 @@
             command-map (-> server .getCommandMap)]
         (start pm))
       (recur (try (Bukkit/getServer) (catch Exception e nil))))))
+
+(try
+  (-> (Bukkit/getServer) (.getPluginManager) (start))
+  (catch Exception e (.printStackTrace e)))
