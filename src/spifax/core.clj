@@ -42,6 +42,7 @@
 
 (defn- register-all-events [plugin-manager]
   (prn 'register-all-events plugin-manager)
+  (require 'spifax.app.chat)
   (let [klass org.bukkit.event.player.AsyncPlayerChatEvent
         f (fn [event]
             (let [player (.getPlayer event)]
