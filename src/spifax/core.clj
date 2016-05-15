@@ -41,7 +41,12 @@
 ; End
 
 (defn- register-all-events [plugin-manager]
-  (prn 'register-all-events plugin-manager))
+  (prn 'register-all-events plugin-manager)
+  (let [klass org.bukkit.event.player.AsyncPlayerChatEvent
+        f (fn [event]
+            (let [player (.getPlayer)]
+              (prn 'chat player event)))]
+    (register-event plugin-manager klass f)))
 
 (defn- start
   "It's called right after minecraft server is ready"
