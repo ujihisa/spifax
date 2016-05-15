@@ -13,8 +13,8 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [compojure "1.5.0"]
                  [ring/ring-defaults "0.2.0"]
-                 [org.spigotmc/spigot-api "1.9.2-R0.1-SNAPSHOT"]
-                 [org.spigotmc/spigot "1.9.2"]
+                 [org.spigotmc/spigot-api "1.9.4-R0.1-SNAPSHOT"]
+                 [org.spigotmc/spigot "1.9.4"]
                  [clj-http "3.0.1"]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:init spifax.core/init
