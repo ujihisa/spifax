@@ -10,7 +10,8 @@
                  "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
                  "localrepo1"
                  "file://myrepo"}
-  :dependencies [[sugot "1.0"]
+  :dependencies [[sugot "1.0" :exclusions [com.google.guava/guava
+                                           com.google.code.gson/gson]]
                  [compojure "1.5.0"]
                  [ring/ring-defaults "0.2.0"]]
   :plugins [[lein-ring "0.9.7"]]
