@@ -1,5 +1,5 @@
 (ns spifax.app.chat
-  (:require [spifax.lib :as l]))
+  (:require [sugot.lib :as l]))
 
 (defn org.bukkit.event.player.AsyncPlayerChatEvent [event]
   (let [player (.getPlayer event)]
