@@ -5,25 +5,12 @@
   (:require [sugot.core]
             [sugot.events]))
 
-; Refactor this part -- dead copy from sugot
-(defn register-event [pm event-type f]
-  (let [listener (reify Listener)
-        executor (reify org.bukkit.plugin.EventExecutor
-                   (execute [this listener event]
-                     (when (instance? event-type event)
-                       (try
-                         (f event)
-                         (catch Exception e (.printStackTrace e))))))
-        priority org.bukkit.event.EventPriority/NORMAL]
-    (-> pm (.registerEvent event-type listener priority executor sugot.core/dummy-sugot-plugin))))
-; End
-
 (defn- register-all-events [plugin-manager]
   (prn 'register-all-events plugin-manager)
   (require 'spifax.app.chat)
   (let [klass org.bukkit.event.player.AsyncPlayerChatEvent
         f (read-string "spifax.app.chat/org.bukkit.event.player.AsyncPlayerChatEvent")]
-    (register-event plugin-manager klass f)))
+    (sugot.core/register-event plugin-manager klass f)))
 
 (defn- start
   "It's called right after minecraft server is ready"
