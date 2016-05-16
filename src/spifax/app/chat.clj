@@ -6,4 +6,5 @@
     (prn 'chat player event)))
 
 (defn org.bukkit.event.player.PlayerLoginEvent [event]
+  (prn 'org.bukkit.event.player.PlayerLoginEvent)
   (l/post-lingr (format "[LOGIN] %s logged in." (.getName (.getPlayer event)))))
