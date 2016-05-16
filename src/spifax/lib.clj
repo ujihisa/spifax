@@ -3,7 +3,7 @@
   (:import [org.bukkit Bukkit]))
 
 (defn post-lingr-sync [msg]
-  (when sugot.lib/bot-verifier
+  (when @#'sugot.lib/bot-verifier
     (clj-http.client/post
       "http://lingr.com/api/room/say"
       {:form-params
