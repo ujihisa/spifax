@@ -2,32 +2,10 @@
   (:import [org.bukkit.craftbukkit Main]
            [org.bukkit Bukkit]
            [org.bukkit.event Listener])
-  (:require [spifax.events]))
+  (:require [sugot.core]
+            [sugot.events]))
 
 ; Refactor this part -- dead copy from sugot
-(def dummy-sugot-plugin
-  (reify org.bukkit.plugin.Plugin
-    (getConfig [this] nil)
-    (getDatabase [this] nil)
-    (getDataFolder [this] nil)
-    (getDefaultWorldGenerator [this worldName id] nil)
-    (getDescription [this] nil)
-    (getLogger [this] nil)
-    (getName [this] "sugot")
-    (getPluginLoader [this] nil)
-    (getResource [this filename] nil)
-    (getServer [this] (Bukkit/getServer))
-    (isEnabled [this] true)
-    (isNaggable [this] nil)
-    (onDisable [this] nil)
-    (onEnable [this] (prn 'onEnable this))
-    (onLoad [this] (prn 'onLoad this))
-    (reloadConfig [this] nil)
-    (saveConfig [this] nil)
-    (saveDefaultConfig [this] nil)
-    (saveResource [this resourcePath replace-b] nil)
-    (setNaggable [boolean canNag] nil)))
-
 (defn register-event [pm event-type f]
   (let [listener (reify Listener)
         executor (reify org.bukkit.plugin.EventExecutor
@@ -37,7 +15,7 @@
                          (f event)
                          (catch Exception e (.printStackTrace e))))))
         priority org.bukkit.event.EventPriority/NORMAL]
-    (-> pm (.registerEvent event-type listener priority executor dummy-sugot-plugin))))
+    (-> pm (.registerEvent event-type listener priority executor sugot.core/dummy-sugot-plugin))))
 ; End
 
 (defn- register-all-events [plugin-manager]
