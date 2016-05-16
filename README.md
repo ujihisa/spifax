@@ -19,6 +19,7 @@ FIXME
 ## Development Notes
 
 * https://embed.gyazo.com/c77decf6af119756123d87ffbb4b4510.png
+* `lein test`
 
 ## Licence
 
