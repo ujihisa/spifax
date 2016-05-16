@@ -1,21 +1,15 @@
 (ns spifax.lib
   (:import [org.bukkit Bukkit]))
 
-(def ^:dynamic *dummy-plugin*
-  (delay (-> (Bukkit/getPluginManager) (.getPlugin "dynmap"))))
+(defn post-lingr-sync [msg]
+  (when bot-verifier
+    (clj-http.client/post
+      "http://lingr.com/api/room/say"
+      {:form-params
+       {:room "mcujm"
+        :bot 'spifax
+        :text (ChatColor/stripColor (str msg))
+        :bot_verifier bot-verifier}})))
 
-(defn sec
-  "Convert from seconds to ticks"
-  [n]
-  (long (* 20 n)))
-
-(defn later-fn [tick f]
-  (let [f* (fn []
-             (try
-               (f)
-               (catch Exception e (.printStackTrace e))))]
-    (.runTaskLater
-      (Bukkit/getScheduler) @*dummy-plugin* f* tick)))
-
-(defmacro later [tick & exps]
-  `(later-fn ~tick (fn [] ~@exps)))
+(prn :post-lingr-sync
+     (post-lingr-sync "[lib.clj] restarted"))
