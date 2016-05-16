@@ -10,6 +10,9 @@
   (require 'spifax.app.chat)
   (let [klass org.bukkit.event.player.AsyncPlayerChatEvent
         f (read-string "spifax.app.chat/org.bukkit.event.player.AsyncPlayerChatEvent")]
+    (sugot.core/register-event plugin-manager klass f))
+  (let [klass org.bukkit.event.player.PlayerLoginEvent
+        f (read-string "spifax.app.chat/org.bukkit.event.player.PlayerLoginEvent")]
     (sugot.core/register-event plugin-manager klass f)))
 
 (defn- start

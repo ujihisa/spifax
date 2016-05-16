@@ -1,6 +1,6 @@
 (ns spifax.lib
   (:require [sugot.lib])
-  (:import [org.bukkit Bukkit]))
+  (:import [org.bukkit Bukkit ChatColor]))
 
 (defn post-lingr-sync [msg]
   (when @#'sugot.lib/bot-verifier
@@ -10,7 +10,7 @@
        {:room "mcujm"
         :bot 'spifax
         :text (ChatColor/stripColor (str msg))
-        :bot_verifier bot-verifier}})))
+        :bot_verifier @#'sugot.lib/bot-verifier}})))
 
-(prn :post-lingr-sync
-     (post-lingr-sync "[lib.clj] restarted"))
+(defn post-lingr [msg]
+  (future (post-lingr-sync msg)))
