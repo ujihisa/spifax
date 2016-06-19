@@ -13,6 +13,10 @@
     (sugot.core/register-event plugin-manager klass f))
   (let [klass org.bukkit.event.player.PlayerLoginEvent
         f (ns-resolve 'spifax.app.chat (symbol "spifax.app.chat/org.bukkit.event.player.PlayerLoginEvent"))]
+    (sugot.core/register-event plugin-manager klass f))
+  (require 'spifax.app.bonus-achievement)
+  (let [klass org.bukkit.event.player.PlayerLoginEvent
+        f (ns-resolve 'spifax.app.bonus-achievement (symbol "spifax.app.bonus-achievement/org.bukkit.event.player.PlayerAchievementAwardedEvent"))]
     (sugot.core/register-event plugin-manager klass f)))
 
 (defn- start
