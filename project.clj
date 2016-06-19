@@ -12,10 +12,10 @@
                  "file://myrepo"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [compojure "1.5.0"]
-                 [ring/ring-defaults "0.2.0"]
-                 [org.spigotmc/spigot-api "1.9.4-R0.1-SNAPSHOT"]
-                 [org.spigotmc/spigot "1.9.4"]
-                 [clj-http "3.0.1"]
+                 [ring/ring-defaults "0.2.1"]
+                 [org.spigotmc/spigot-api "1.10-R0.1-SNAPSHOT"]
+                 [org.spigotmc/spigot "1.10"]
+                 [clj-http "3.1.0"]
                  ; I don't know why, but you can't let `sugot` fetch `spigot` and `spigot-api`,
                  ; otherwise you'll get a runtime error at ring bootup
                  [sugot "1.2" :exclusions [com.google.guava/guava
