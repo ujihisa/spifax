@@ -10,10 +10,12 @@
   (require 'spifax.app.chat)
   (let [klass org.bukkit.event.player.AsyncPlayerChatEvent
         f (read-string "spifax.app.chat/org.bukkit.event.player.AsyncPlayerChatEvent")]
+    (prn 'registering klass f)
     (sugot.core/register-event plugin-manager klass f))
   (let [klass org.bukkit.event.player.PlayerLoginEvent
         f (read-string "spifax.app.chat/org.bukkit.event.player.PlayerLoginEvent")]
-    (sugot.core/register-event plugin-manager klass f)))
+    (sugot.core/register-event plugin-manager klass f)
+    (prn 'registering klass f)))
 
 (defn- start
   "It's called right after minecraft server is ready"
