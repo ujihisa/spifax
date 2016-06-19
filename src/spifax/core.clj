@@ -10,6 +10,9 @@
   (require 'spifax.app.chat)
   (let [klass org.bukkit.event.player.AsyncPlayerChatEvent
         f (read-string "spifax.app.chat/org.bukkit.event.player.AsyncPlayerChatEvent")]
+    (try
+      (f nil)
+      (catch Exception e (.printStackTrace e)))
     (prn 'registering klass f)
     (sugot.core/register-event plugin-manager klass f))
   (let [klass org.bukkit.event.player.PlayerLoginEvent
