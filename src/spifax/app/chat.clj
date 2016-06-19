@@ -7,6 +7,7 @@
     (l/post-lingr-sync (format (get-format event) (get-name player) (get-message event)))))
 
 (defn org.bukkit.event.player.AsyncPlayerChatEvent [event]
+  (prn 'org.bukkit.event.player.AsyncPlayerChatEvent event)
   (#'org.bukkit.event.player.AsyncPlayerChatEvent'
     event #(.getPlayer %) #(.getName %) #(.getFormat %) #(.getMessage %)))
 
