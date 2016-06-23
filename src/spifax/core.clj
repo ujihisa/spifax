@@ -11,20 +11,20 @@
   (let [klass org.bukkit.event.player.AsyncPlayerChatEvent
         sym (symbol (format "%s/%s"
                             "spifax.app.chat"
-                            "org.bukkit.event.player.AsyncPlayerChatEvent"))
+                            (.getName klass)))
         f (ns-resolve 'spifax.app.chat sym)]
     (sugot.core/register-event plugin-manager klass f))
   (let [klass org.bukkit.event.player.PlayerLoginEvent
         sym (symbol (format "%s/%s"
                             "spifax.app.chat"
-                            "org.bukkit.event.player.PlayerLoginEvent"))
+                            (.getName klass)))
         f (ns-resolve 'spifax.app.chat sym)]
     (sugot.core/register-event plugin-manager klass f))
   (require 'spifax.app.bonus-achievement)
   (let [klass org.bukkit.event.player.PlayerAchievementAwardedEvent
         sym (symbol (format "%s/%s"
                             "spifax.app.bonus-achievement"
-                            "org.bukkit.event.player.PlayerAchievementAwardedEvent"))
+                            (.getName klass)))
         f (ns-resolve 'spifax.app.bonus-achievement sym)]
     (sugot.core/register-event plugin-manager klass f)))
 
