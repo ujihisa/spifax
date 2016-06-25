@@ -12,7 +12,7 @@
       (doseq [armour (into [] (.getArmorContents equipment))
               :when (.startsWith (.toString (.getType armour)) "GOLD")]
         (l/post-lingr (format "[GOLD] %s dropped a gold."
-                              (class entity)))
+                              (.getSimpleName (class entity))))
         (w/drop-item (get-location entity) (ItemStack. Material/GOLD_INGOT 1))))
     nil))
 
