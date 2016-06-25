@@ -5,7 +5,7 @@
             [sugot.world :as w]))
 
 (defn org.bukkit.event.entity.EntityDeathEvent' [entity drops]
-  (condp = (class entity)
+  (condp instance? entity
     Monster
     (let [equipment (.getEquipment entity)]
       (doseq [armour (into [] (.getArmorContents equipment))
