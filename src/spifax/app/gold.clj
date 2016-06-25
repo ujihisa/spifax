@@ -23,6 +23,6 @@
 (defn org.bukkit.event.entity.EntityDeathEvent [event]
   (#'org.bukkit.event.entity.EntityDeathEvent'
     (.getEntity event) (.getDrops event)
-    #(fn [entity] (.getLocation entity))
-    #(fn [player] (.getName player))
-    #(fn [living-entity] (.getKiller living-entity))))
+    (fn [entity] (.getLocation entity))
+    (fn [player] (.getName player))
+    (fn [living-entity] (.getKiller living-entity))))
