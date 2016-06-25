@@ -7,25 +7,29 @@
 
 (defn- register-all-events [plugin-manager]
   (prn 'register-all-events plugin-manager)
-  (require 'spifax.app.chat)
-  (let [klass org.bukkit.event.player.AsyncPlayerChatEvent
+  (let [namespace* 'spifax.app.chat
+        klass org.bukkit.event.player.AsyncPlayerChatEvent
+        sym (symbol (format "%s/%s"
+                            (name namespace*)
+                            (.getName klass)))
+        _ (require namespace*)
+        f (ns-resolve namespace* sym)]
+    (sugot.core/register-event plugin-manager klass f))
+  (let [namespace* 'spifax.app.chat
+        klass org.bukkit.event.player.PlayerLoginEvent
         sym (symbol (format "%s/%s"
                             "spifax.app.chat"
                             (.getName klass)))
-        f (ns-resolve 'spifax.app.chat sym)]
+        _ (require namespace*)
+        f (ns-resolve namespace* sym)]
     (sugot.core/register-event plugin-manager klass f))
-  (let [klass org.bukkit.event.player.PlayerLoginEvent
-        sym (symbol (format "%s/%s"
-                            "spifax.app.chat"
-                            (.getName klass)))
-        f (ns-resolve 'spifax.app.chat sym)]
-    (sugot.core/register-event plugin-manager klass f))
-  (require 'spifax.app.bonus-achievement)
-  (let [klass org.bukkit.event.player.PlayerAchievementAwardedEvent
+  (let [namespace* 'spifax.app.bonus-achievement
+        klass org.bukkit.event.player.PlayerAchievementAwardedEvent
         sym (symbol (format "%s/%s"
                             "spifax.app.bonus-achievement"
                             (.getName klass)))
-        f (ns-resolve 'spifax.app.bonus-achievement sym)]
+        _ (require namespace*)
+        f (ns-resolve namespace* sym)]
     (sugot.core/register-event plugin-manager klass f)))
 
 (defn- start
