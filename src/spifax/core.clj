@@ -7,14 +7,17 @@
 
 (defn- register-all-events [plugin-manager]
   (prn 'register-all-events plugin-manager)
-  (doseq [namespace* ['spifax.app.chat 'spifax.app.bonus-achievement]
+  (doseq [namespace* ['spifax.app.chat 'spifax.app.bonus-achievement
+                      'spifax.app.misc]
+          _ [(require namespace*)]
           klass [org.bukkit.event.player.AsyncPlayerChatEvent
                  org.bukkit.event.player.PlayerLoginEvent
+                 org.bukkit.event.player.PlayerQuitEvent
+                 org.bukkit.event.entity.PlayerDeathEvent
                  org.bukkit.event.player.PlayerAchievementAwardedEvent]]
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)
                               (.getName klass)))]
-      (require namespace*)
       (when-let [f (ns-resolve namespace* sym)]
         (let [safe-f (fn [event]
                        (try
