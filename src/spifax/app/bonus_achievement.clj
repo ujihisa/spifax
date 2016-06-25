@@ -13,13 +13,13 @@
                                  (w/strike-lightning-effect loc)
                                  (w/drop-item loc (ItemStack. Material/DIAMOND 64)))
     Achievement/MAKE_BREAD (let [loc (get-location (get-player event))]
-                                 (w/strike-lightning-effect loc)
-                                 (dotimes [_ 2]
-                                   (w/drop-item loc (ItemStack. Material/BREAD 64))))
+                             (w/strike-lightning-effect loc)
+                             (dotimes [_ 2]
+                               (w/drop-item loc (ItemStack. Material/BREAD 64))))
     Achievement/ENCHANTMENTS (let [loc (get-location (get-player event))]
-                                   (w/strike-lightning-effect loc)
-                                   (.sendMessage (get-player event) "[ACHIEVEMENT] Level Up Bonus!")
-                                   (add-level (get-player event) 80))
+                               (w/strike-lightning-effect loc)
+                               (.sendMessage (get-player event) "[ACHIEVEMENT] Level Up Bonus!")
+                               (add-level (get-player event) 80))
     nil))
 
 (defn org.bukkit.event.player.PlayerAchievementAwardedEvent [event]
