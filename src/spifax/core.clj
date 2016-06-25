@@ -8,13 +8,14 @@
 (defn- register-all-events [plugin-manager]
   (prn 'register-all-events plugin-manager)
   (doseq [namespace* ['spifax.app.chat 'spifax.app.bonus-achievement
-                      'spifax.app.misc]
+                      'spifax.app.misc 'spifax.app.gold]
           _ [(require namespace*)]
           klass [org.bukkit.event.player.AsyncPlayerChatEvent
                  org.bukkit.event.player.PlayerLoginEvent
                  org.bukkit.event.player.PlayerQuitEvent
                  org.bukkit.event.entity.PlayerDeathEvent
-                 org.bukkit.event.player.PlayerAchievementAwardedEvent]]
+                 org.bukkit.event.player.PlayerAchievementAwardedEvent
+                 org.bukkit.event.entity.EntityDeathEvent]]
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)
                               (.getName klass)))]
