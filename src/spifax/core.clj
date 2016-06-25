@@ -16,7 +16,11 @@
                               (.getName klass)))]
       (require namespace*)
       (when-let [f (ns-resolve namespace* sym)]
-        (sugot.core/register-event plugin-manager klass f)))))
+        (let [safe-f (fn [event]
+                       (try
+                         (f event)
+                         (catch Exception e (.printStackTrace e))))]
+          (sugot.core/register-event plugin-manager klass safe-f))))))
 
 (defn- start
   "It's called right after minecraft server is ready"
