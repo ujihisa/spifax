@@ -19,10 +19,12 @@
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)
                               (.getName klass)))]
-      (when-let [f (ns-resolve namespace* sym)]
+      (when (ns-resolve namespace* sym)
         (let [safe-f (fn [event]
                        (try
-                         (f event)
+                         ; This lookup has to be dynamic every time
+                         ; because this part only happen once at bootup.
+                         (ns-resolve namespace* sym)
                          (catch Exception e (.printStackTrace e))))]
           (sugot.core/register-event plugin-manager klass safe-f))))))
 
