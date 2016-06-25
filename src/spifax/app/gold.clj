@@ -11,11 +11,11 @@
     (let [equipment (.getEquipment entity)]
       (doseq [armour (into [] (.getArmorContents equipment))
               :when (.startsWith (.toString (.getType armour)) "GOLD")]
-        (l/post-lingr (format "[GOLD] %s, killed by %s, dropped a gold."
-                              (.getSimpleName (class entity))
+        (l/post-lingr (format "[GOLD] %s killed by %s dropped a gold."
+                              (replace (.getSimpleName (class entity)) #"^Craft" "")
                               (get-name (get-killer entity))))
-        (l/broadcast (format "[GOLD] %s, killed by %s, dropped a gold."
-                           (.getSimpleName (class entity))
+        (l/broadcast (format "[GOLD] %s killed by %s dropped a gold."
+                             (replace (.getSimpleName (class entity)) #"^Craft" "")
                            (get-name (get-killer entity))))
         (w/drop-item (get-location entity) (ItemStack. Material/GOLD_INGOT 1))))
     nil))
