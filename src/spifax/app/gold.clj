@@ -12,7 +12,7 @@
     (let [equipment (.getEquipment entity)]
       (doseq [armour (into [] (.getArmorContents equipment))
               :when (.startsWith (.toString (.getType armour)) "GOLD")]
-        (l/post-lingr (format "[GOLD] %s killed by %s dropped a gold."
+        #_(l/post-lingr (format "[GOLD] %s killed by %s dropped a gold."
                               (clojure.string/replace (.getSimpleName (class entity)) #"^Craft" "")
                               (get-name (get-killer entity))))
         (l/broadcast (format "[GOLD] %s killed by %s dropped a gold."
