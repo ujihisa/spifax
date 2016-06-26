@@ -15,6 +15,7 @@
                  org.bukkit.event.player.PlayerQuitEvent
                  org.bukkit.event.entity.PlayerDeathEvent
                  org.bukkit.event.player.PlayerAchievementAwardedEvent
+                 org.bukkit.event.player.PlayerBedEnterEvent
                  org.bukkit.event.entity.EntityDeathEvent]]
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)
