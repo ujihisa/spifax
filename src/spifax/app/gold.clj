@@ -10,13 +10,14 @@
   (condp instance? entity
     Monster
     (let [equipment (.getEquipment entity)]
-      (doseq [armour (into [] (.getArmorContents equipment))
-              :when (.startsWith (.toString (.getType armour)) "GOLD")]
-        (.sendMessage (get-killer entity)
-                      (format "[GOLD] %s killed by %s dropped a gold."
-                              (clojure.string/replace (.getSimpleName (class entity)) #"^Craft" "")
-                              (get-name (get-killer entity))))
-        (w/drop-item (get-location entity) (ItemStack. Material/GOLD_INGOT 1))))
+      (when-let [killer (get-killer entity)]
+        (doseq [armour (into [] (.getArmorContents equipment))
+                :when (.startsWith (.toString (.getType armour)) "GOLD")]
+          (.sendMessage (get-killer entity)
+                        (format "[GOLD] %s killed by %s dropped a gold."
+                                (clojure.string/replace (.getSimpleName (class entity)) #"^Craft" "")
+                                (get-name killer)))
+          (w/drop-item (get-location entity) (ItemStack. Material/GOLD_INGOT 1)))))
     nil))
 
 (defn org.bukkit.event.entity.EntityDeathEvent [event]
