@@ -12,8 +12,10 @@
     (when (and (@players-sleeping player-name)
                (< threshold-night (get-time world) threshold-morning))
       (swap! players-sleeping disj player-name)
-      (l/post-lingr "[SINGLE_SLEEP] Good morning")
-      (l/broadcast "[SINGLE_SLEEP] Good morning")
+      (let [msg (format "[SINGLE_SLEEP] Good morning, %s"
+                        player-name)]
+        (l/post-lingr msg)
+        (l/broadcast msg))
       (set-time world 0))))
 
 (defn org.bukkit.event.player.PlayerBedEnterEvent [event]
