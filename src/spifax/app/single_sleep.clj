@@ -18,7 +18,6 @@
 
 (defn org.bukkit.event.player.PlayerBedEnterEvent [event]
   (#'org.bukkit.event.player.PlayerBedEnterEvent*
-    (.getPlayer event)
     (.getName (.getPlayer event))
     (.getWorld (.getPlayer event))
     (fn [world]
