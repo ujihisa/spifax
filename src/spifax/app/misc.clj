@@ -19,3 +19,13 @@
                         (.getBlockZ new-loc))]
     (l/broadcast message)
     (l/post-lingr message)))
+
+(defn org.bukkit.event.weather.LightningStrikeEvent [event]
+  (when-not (.isEffect (.getLightning event))
+    (let [loc (.getLightning event)
+          message (format "[MISC] (%d, %d, %d) に落雷しました。"
+                          (.getX loc)
+                          (.getY loc)
+                          (.getZ loc))]
+      (l/broadcast message)
+      (l/post-lingr message))))
