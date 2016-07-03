@@ -22,7 +22,7 @@
 
 (defn org.bukkit.event.weather.LightningStrikeEvent [event]
   (when-not (.isEffect (.getLightning event))
-    (let [loc (.getLightning event)
+    (let [loc (.getLocation (.getLightning event))
           message (format "[MISC] (%d, %d, %d) に落雷しました。"
                           (.getX loc)
                           (.getY loc)
