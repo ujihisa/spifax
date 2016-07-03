@@ -20,7 +20,7 @@
                  org.bukkit.event.player.PlayerBedLeaveEvent
                  org.bukkit.event.entity.EntityDeathEvent
                  org.bukkit.event.player.PlayerPortalEvent
-                 #_org.bukkit.event.vehicle.VehicleMoveEvent
+                 org.bukkit.event.vehicle.VehicleMoveEvent
                  org.bukkit.event.weather.LightningStrikeEvent]]
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)

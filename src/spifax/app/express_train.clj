@@ -26,7 +26,8 @@
   (let [vehicle (.getVehicle event)]
     (when-let [passenger (.getPassenger vehicle)]
       (when (and (instance? Minecart vehicle)
-                 (instance? Player passenger))
+                 (instance? Player passenger)
+                 (= "ujm" (.getName passenger)))
         (let [player-name (.getName passenger)
               actual-velocity (.subtract (.getTo event) (.getFrom event))]
           (if (< 0.39 (.length actual-velocity))
