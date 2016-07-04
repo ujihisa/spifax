@@ -9,7 +9,7 @@
   (prn 'register-all-events plugin-manager)
   (doseq [namespace* ['spifax.app.chat 'spifax.app.bonus-achievement
                       'spifax.app.misc 'spifax.app.gold 'spifax.app.single-sleep
-                      'spifax.app.express-train]
+                      'spifax.app.express-train 'spifax.app.pull-items]
           _ [(require namespace*)]
           klass [org.bukkit.event.player.AsyncPlayerChatEvent
                  org.bukkit.event.player.PlayerLoginEvent
@@ -22,7 +22,8 @@
                  org.bukkit.event.player.PlayerPortalEvent
                  org.bukkit.event.vehicle.VehicleMoveEvent
                  org.bukkit.event.weather.LightningStrikeEvent
-                 org.bukkit.event.block.BlockBreakEvent]]
+                 org.bukkit.event.block.BlockBreakEvent
+                 org.bukkit.event.player.PlayerToggleSneakEvent]]
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)
                               (.getName klass)))]
