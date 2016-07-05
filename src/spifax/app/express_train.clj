@@ -54,7 +54,7 @@
                                  ", "
                                  (.length actual-velocity))))))))))
 
-(when-let [yet (Bukkit/getPlayer "yetdesperate")]
+#_ (when-let [yet (Bukkit/getPlayer "yetdesperate")]
   (dotimes [i (rand-nth [1 20 30 40])]
     (l/later (* 2 i)
       (w/play-effect (rand-around (.getLocation yet))
