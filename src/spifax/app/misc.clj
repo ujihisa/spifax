@@ -29,3 +29,18 @@
                           (.getZ loc))]
       (l/broadcast message)
       (l/post-lingr message))))
+
+(defn org.bukkit.event.entity.EntityDamageByEntityEvent' [entity damager]
+  (when (and entity
+             (instance? org.bukkit.entity.Player entity)
+             (= "ujm" (.getName entity))
+             damager)
+    (.sendMessage entity (format "[MISC] %s damaged %s (%s)."
+                                 damager
+                                 entity
+                                 (.isBlocking entity)))))
+
+(defn org.bukkit.event.entity.EntityDamageByEntityEvent [event]
+  (#'org.bukkit.event.entity.EntityDamageByEntityEvent'
+    (.getEntity event)
+    (.getDamager event)))
