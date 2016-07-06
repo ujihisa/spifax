@@ -5,6 +5,8 @@
   (:require [sugot.core]
             [sugot.events]))
 
+(def already-started (ref true))
+
 (defn- register-all-events [plugin-manager]
   (prn 'register-all-events plugin-manager)
   (doseq [namespace* ['spifax.app.chat 'spifax.app.bonus-achievement
@@ -60,7 +62,11 @@
       (recur (try (Bukkit/getServer) (catch Exception e nil))))))
 
 (try
-  (if-let [server (Bukkit/getServer)]
-    (-> server (.getPluginManager) (start))
-    (prn :server-not-ready))
+  (when-not @already-started
+    (if-let [server (Bukkit/getServer)]
+      (do
+        (dosync
+          (ref-set already-started true))
+        (-> server (.getPluginManager) (start)))
+      (prn :server-not-ready)))
   (catch Exception e e))
