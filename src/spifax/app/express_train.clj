@@ -7,7 +7,29 @@
 (defn rand-around [loc]
   (.add loc (- 0.5 (rand)) (- 0.5 (rand)) (- 0.5 (rand))))
 
-(def max-before-gear-change (atom {}))
+(def minecart-max-speed 2.05) ; precisely 2.054000
+
+(defn- go-next [vehicle passenger direction]
+  (when (and
+          (.isValid vehicle)
+          (.isValid passenger)
+          (= passenger (.getPassenger vehicle)))
+    (let [vehicle-loc (.getLocation vehicle)
+          next-block (.getBlock
+                       (.add (.clone vehicle-loc) direction))]
+      (when (= Material/STEP (.getType next-block))
+        (.sendMessage passenger (str "good" (.getLocation vehicle) " " (.getLocation next-block)))
+        (.setVelocity vehicle (.zero (.getVelocity vehicle)))
+        (l/later 0
+          (let [new-loc (.add (.add (.clone vehicle-loc) direction)
+                              0.0 0.5 0.0)]
+            (w/strike-lightning-effect new-loc)
+            ; (.setYaw new-loc (.getYaw (.getLocation passenger)))
+            ; (.setPitch new-loc (.getPitch (.getLocation passenger)))
+            ; (.teleport passenger new-loc)
+            (.teleport vehicle new-loc))))
+      #_(l/later 1
+        (go-next vehicle passenger direction)))))
 
 ; SPEC STORY
 ;   Player ujm takes a minecart.
@@ -17,25 +39,27 @@
 ;
 ; NOTES
 ;   This works only with player. Not for cargo carts.
-;
-; DEVELOPMENT NOTES
-;   * Minecart.setMaxSpeed did not seem to be working when you check by
-;     Vehicle.getVelocity, but it's actually moving faster. Check by
-;     diff of .getTo and .getFrom.
 (defn org.bukkit.event.vehicle.VehicleMoveEvent [event]
   (let [vehicle (.getVehicle event)]
     (when-let [passenger (.getPassenger vehicle)]
       (when (and (instance? Minecart vehicle)
                  (instance? Player passenger)
-                 (= "ujm" (.getName passenger)))
+                 #_(= "ujm" (.getName passenger)))
         (let [player-name (.getName passenger)
-              actual-velocity (.subtract (.getTo event) (.getFrom event))]
-          (if (< 0.39 (.length actual-velocity))
+              velocity (.getVelocity vehicle)]
+          (when (< minecart-max-speed (.length velocity))
+            (go-next vehicle
+                     passenger
+                     (.normalize (.clone velocity)))
+            #_(let [next-block (get-next-block velocity (.getLocation vehicle))]
+              (when (= Material/STEP (.getType next-block))
+                (.setCancelled event)
+                (go-next vehicle passenger next-block))))
+          #_(if (< 0.39 (.length actual-velocity))
             (do
               (when (< 0.9 (rand))
                 (w/play-sound (.getLocation passenger) Sound/ENTITY_MINECART_RIDING (float 0.5) (float 1.8)))
               (when (< (.getMaxSpeed vehicle) 0.9)
-                (swap! max-before-gear-change conj player-name 0)
                 (w/play-effect (.getLocation passenger) Effect/END_GATEWAY_SPAWN nil)
                 (.setMaxSpeed vehicle 1.0)
                 (.sendMessage passenger
@@ -46,7 +70,6 @@
                                    ", "
                                    (.length actual-velocity)))))
             (do
-              (swap! max-before-gear-change disj player-name)
               (.setMaxSpeed vehicle 0.4)
               #_(.sendMessage passenger
                             (str "less"
