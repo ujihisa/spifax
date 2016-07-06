@@ -54,9 +54,11 @@
                                  ", "
                                  (.length actual-velocity))))))))))
 
-#_ (when-let [yet (Bukkit/getPlayer "yetdesperate")]
-  (dotimes [i (rand-nth [1 20 30 40])]
-    (l/later (* 2 i)
-      (w/play-effect (rand-around (.getLocation yet))
-                     Effect/END_GATEWAY_SPAWN
-                     nil))))
+(try
+  (when-let [yet (Bukkit/getPlayer "yetdesperate")]
+    (dotimes [i (rand-nth [1 20 30 40])]
+      (l/later (* 2 i)
+        (w/play-effect (rand-around (.getLocation yet))
+                       Effect/END_GATEWAY_SPAWN
+                       nil))))
+  (catch Exception e (prn e)))
