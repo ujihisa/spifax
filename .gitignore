@@ -30,3 +30,5 @@ pom.xml.asc
 /localrepo1
 /spigot
 /tags
+
+*.tgz
