@@ -31,7 +31,7 @@
       (l/post-lingr message))))
 
 (defn org.bukkit.event.entity.EntityDamageByEntityEvent' [entity damager]
-  (when (and entity
+  #_(when (and entity
              (instance? org.bukkit.entity.Player entity)
              (= "ujm" (.getName entity))
              damager)
