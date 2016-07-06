@@ -24,9 +24,9 @@
   (when-not (.isEffect (.getLightning event))
     (let [loc (.getLocation (.getLightning event))
           message (format "[MISC] (%d, %d, %d) に落雷しました。"
-                          (.getX loc)
-                          (.getY loc)
-                          (.getZ loc))]
+                          (int (.getX loc))
+                          (int (.getY loc))
+                          (int (.getZ loc)))]
       (l/broadcast message)
       (l/post-lingr message))))
 
