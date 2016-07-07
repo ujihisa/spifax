@@ -21,15 +21,18 @@
         (.sendMessage passenger (str "good" (.getLocation vehicle) " " (.getLocation next-block)))
         (.setVelocity vehicle (.zero (.getVelocity vehicle)))
         (l/later 0
-          (let [new-loc (.add (.add (.clone vehicle-loc) direction)
+          (let [new-loc (.add (.add (.clone vehicle-loc) (.multiply (.clone direction)
+                                                                    15))
                               0.0 0.5 0.0)]
             (w/strike-lightning-effect new-loc)
-            ; (.setYaw new-loc (.getYaw (.getLocation passenger)))
-            ; (.setPitch new-loc (.getPitch (.getLocation passenger)))
-            ; (.teleport passenger new-loc)
-            (.teleport vehicle new-loc))))
-      #_(l/later 1
-        (go-next vehicle passenger direction)))))
+            (.setYaw new-loc (.getYaw (.getLocation passenger)))
+            (.setPitch new-loc (.getPitch (.getLocation passenger)))
+            (.teleport passenger new-loc)
+            (.teleport vehicle new-loc)
+            (.setPassenger vehicle passenger)
+            #_(l/later 1
+              (when (< 0 (rand 100))
+                (go-next vehicle passenger direction)))))))))
 
 ; SPEC STORY
 ;   Player ujm takes a minecart.
@@ -78,7 +81,7 @@
                                  (.length actual-velocity))))))))))
 
 (try
-  (when-let [yet (Bukkit/getPlayer "yetdesperate")]
+  (when-let [yet (Bukkit/getPlayer "ryunix")]
     (dotimes [i (rand-nth [1 20 30 40])]
       (l/later (* 2 i)
         (w/play-effect (rand-around (.getLocation yet))
