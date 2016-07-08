@@ -17,17 +17,19 @@
     (let [direction (.normalize (.clone velocity))
           next-block (.getBlock
                        (.add (.clone vehicle-loc) direction))]
-      #_(.sendMessage passenger (str [(.getX vehicle-loc)
-                                    (.getY vehicle-loc)
-                                    (.getZ vehicle-loc)
-                                    (.getType next-block)]))
       (when (= Material/STEP (.getType next-block))
         ; (.sendMessage passenger (str "good" (.getLocation vehicle) " " (.getLocation next-block)))
         (l/later 0
-          (let [new-loc (.add (.add (.clone vehicle-loc)
-                                    (.clone direction))
-                              0.0 0.0 0.0)]
+          (let [new-loc (.add (.clone vehicle-loc)
+                              (.multiply (.clone direction) 1.0))]
             (w/play-sound new-loc Sound/ENTITY_MINECART_RIDING (float 0.2) (float 1.8))
+            (doseq [player (Bukkit/getOnlinePlayers)
+                    :let [loc (.getLocation next-block)]]
+              (l/later (l/sec 0.2)
+                (.sendBlockChange player loc Material/FIRE (byte 0)))
+              (l/later (l/sec 5)
+                (when (.isValid player)
+                  (.sendBlockChange player loc (.getType (.getBlock loc)) (.getData (.getBlock loc))))))
             (.setYaw new-loc (.getYaw (.getLocation passenger)))
             (.setPitch new-loc (.getPitch (.getLocation passenger)))
             (.teleport passenger new-loc)
@@ -85,7 +87,7 @@
                                  (.length actual-velocity))))))))))
 
 (try
-  (when-let [yet (Bukkit/getPlayer "ryunix")]
+  (when-let [yet (Bukkit/getPlayer "ujm")]
     (dotimes [i (rand-nth [1 20 30 40])]
       (l/later (* 2 i)
         (w/play-effect (rand-around (.getLocation yet))
