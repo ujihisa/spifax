@@ -9,30 +9,33 @@
 
 (def minecart-max-speed 2.05) ; precisely 2.054000
 
-(defn- go-next [vehicle passenger direction]
+(defn- go-next [vehicle vehicle-loc passenger velocity]
   (when (and
           (.isValid vehicle)
           (.isValid passenger)
           (= passenger (.getPassenger vehicle)))
-    (let [vehicle-loc (.getLocation vehicle)
+    (let [direction (.normalize (.clone velocity))
           next-block (.getBlock
                        (.add (.clone vehicle-loc) direction))]
+      #_(.sendMessage passenger (str [(.getX vehicle-loc)
+                                    (.getY vehicle-loc)
+                                    (.getZ vehicle-loc)
+                                    (.getType next-block)]))
       (when (= Material/STEP (.getType next-block))
-        (.sendMessage passenger (str "good" (.getLocation vehicle) " " (.getLocation next-block)))
-        (.setVelocity vehicle (.zero (.getVelocity vehicle)))
+        ; (.sendMessage passenger (str "good" (.getLocation vehicle) " " (.getLocation next-block)))
         (l/later 0
-          (let [new-loc (.add (.add (.clone vehicle-loc) (.multiply (.clone direction)
-                                                                    15))
-                              0.0 0.5 0.0)]
-            (w/strike-lightning-effect new-loc)
+          (let [new-loc (.add (.add (.clone vehicle-loc)
+                                    (.clone direction))
+                              0.0 0.0 0.0)]
+            (w/play-sound new-loc Sound/ENTITY_MINECART_RIDING (float 0.2) (float 1.8))
             (.setYaw new-loc (.getYaw (.getLocation passenger)))
             (.setPitch new-loc (.getPitch (.getLocation passenger)))
             (.teleport passenger new-loc)
             (.teleport vehicle new-loc)
             (.setPassenger vehicle passenger)
-            #_(l/later 1
-              (when (< 0 (rand 100))
-                (go-next vehicle passenger direction)))))))))
+            (.setVelocity vehicle velocity)
+            (l/later 1
+              (go-next vehicle new-loc passenger velocity))))))))
 
 ; SPEC STORY
 ;   Player ujm takes a minecart.
@@ -52,8 +55,9 @@
               velocity (.getVelocity vehicle)]
           (when (< minecart-max-speed (.length velocity))
             (go-next vehicle
+                     (.getLocation vehicle)
                      passenger
-                     (.normalize (.clone velocity)))
+                     velocity)
             #_(let [next-block (get-next-block velocity (.getLocation vehicle))]
               (when (= Material/STEP (.getType next-block))
                 (.setCancelled event)
