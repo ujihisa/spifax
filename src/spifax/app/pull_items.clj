@@ -2,12 +2,13 @@
   (:require [sugot.lib :as l]
             [sugot.world :as w])
   (:import [org.bukkit Bukkit Sound]
-           [org.bukkit.entity Item]))
+           [org.bukkit.entity Item ExperienceOrb]))
 
 (defn org.bukkit.event.player.PlayerToggleSneakEvent' [player player-loc sneaking? on-ground?]
   (when (and sneaking? (not on-ground?))
     (let [items (for [entity (.getNearbyEntities player 20.0 5.0 20.0)
-                      :when (instance? Item entity)]
+                      :when (or (instance? Item entity)
+                                (instance? ExperienceOrb entity))]
                   entity)]
       (doseq [[i item] (map-indexed vector items)]
         (l/later (* 10 i)
