@@ -87,10 +87,10 @@
                                  (.length actual-velocity))))))))))
 
 (try
-  (when-let [yet (Bukkit/getPlayer "ujm")]
+  (when-let [yet (Bukkit/getPlayer "yetdeseparate")]
     (dotimes [i (rand-nth [1 20 30 40])]
       (l/later (* 2 i)
         (w/play-effect (rand-around (.getLocation yet))
                        Effect/END_GATEWAY_SPAWN
                        nil))))
-  (catch Exception e (prn e)))
+  (catch Exception e e))

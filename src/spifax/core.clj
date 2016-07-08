@@ -26,7 +26,8 @@
                  org.bukkit.event.weather.LightningStrikeEvent
                  org.bukkit.event.block.BlockBreakEvent
                  org.bukkit.event.player.PlayerToggleSneakEvent
-                 org.bukkit.event.entity.EntityDamageByEntityEvent]]
+                 org.bukkit.event.entity.EntityDamageByEntityEvent
+                 org.bukkit.event.entity.EntityDamageEvent]]
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)
                               (.getName klass)))]

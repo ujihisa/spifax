@@ -1,5 +1,6 @@
 (ns spifax.app.misc
-  (:require [sugot.lib :as l]))
+  (:require [sugot.lib :as l])
+  (:import [org.bukkit.entity Player Minecart]))
 
 (defn org.bukkit.event.player.PlayerQuitEvent [event]
   (l/post-lingr (.getQuitMessage event)))
@@ -44,3 +45,11 @@
   (#'org.bukkit.event.entity.EntityDamageByEntityEvent'
     (.getEntity event)
     (.getDamager event)))
+
+(defn org.bukkit.event.entity.EntityDamageEvent [event]
+  (let [entity (.getEntity event)]
+    (when (and (instance? Player entity)
+               (.getVehicle entity)
+               (instance? Minecart (.getVehicle entity)))
+      (.sendMessage (format "[MISC] %s"
+                            [(.getCause event)])))))
