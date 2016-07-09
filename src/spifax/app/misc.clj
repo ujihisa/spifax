@@ -47,9 +47,9 @@
     (.getDamager event)))
 
 (defn org.bukkit.event.entity.EntityDamageEvent [event]
-  (let [entity (.getEntity event)]
+  #_(let [entity (.getEntity event)]
     (when (and (instance? Player entity)
                (.getVehicle entity)
                (instance? Minecart (.getVehicle entity)))
-      (.sendMessage (format "[MISC] %s"
-                            [(.getCause event)])))))
+      (.sendMessage entity
+                    (format "[MISC] %s" [(.getCause event)])))))

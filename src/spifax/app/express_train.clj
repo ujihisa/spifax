@@ -36,6 +36,8 @@
             (.teleport vehicle new-loc)
             (.setPassenger vehicle passenger)
             (.setVelocity vehicle velocity)
+            (.setFallDistance passenger 0)
+            (.setFallDistance vehicle 0)
             (l/later 1
               (go-next vehicle new-loc passenger velocity))))))))
 
