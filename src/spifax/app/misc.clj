@@ -1,6 +1,7 @@
 (ns spifax.app.misc
   (:require [sugot.lib :as l])
-  (:import [org.bukkit.entity Player Minecart]))
+  (:import [org.bukkit.entity Player Minecart]
+           [org.bukkit Bukkit Material]))
 
 (defn org.bukkit.event.player.PlayerQuitEvent [event]
   (l/post-lingr (.getQuitMessage event)))
@@ -53,3 +54,19 @@
                (instance? Minecart (.getVehicle entity)))
       (.sendMessage entity
                     (format "[MISC] %s" [(.getCause event)])))))
+
+(defn org.bukkit.event.entity.CreatureSpawnEvent [event]
+  (when (or (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/NATURAL (.getSpawnReason event))
+            (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/JOCKEY (.getSpawnReason event))
+            (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/MOUNT (.getSpawnReason event))
+            (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/REINFORCEMENTS (.getSpawnReason event))
+            (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/VILLAGE_INVASION (.getSpawnReason event)))
+    (let [loc (.getLocation (.getEntity event))]
+      (doseq [player (Bukkit/getOnlinePlayers)]
+        (.sendBlockChange player loc Material/NETHER_WART_BLOCK (byte 0)))
+      (l/later (l/sec 300)
+        (doseq [player (Bukkit/getOnlinePlayers)]
+          (.sendBlockChange player
+                            loc
+                            (.getType (.getBlock loc))
+                            (.getData (.getBlock loc))))))))
