@@ -32,13 +32,21 @@
                   (.sendBlockChange player loc (.getType (.getBlock loc)) (.getData (.getBlock loc))))))
             (.setYaw new-loc (.getYaw (.getLocation passenger)))
             (.setPitch new-loc (.getPitch (.getLocation passenger)))
-            (.teleport passenger new-loc)
+            (.teleport passenger (.add (.clone new-loc) 0 1 0))
             (.teleport vehicle new-loc)
             (.setPassenger vehicle passenger)
             (.setVelocity vehicle velocity)
             (.setFallDistance passenger 0)
             (.setFallDistance vehicle 0)
-            (l/later 1
+            (let [chunk (.getChunk new-loc)]
+              (when-not (.isLoaded chunk)
+                (.load chunk)))
+            (.addPotionEffect passenger
+                              (org.bukkit.potion.PotionEffect.
+                                org.bukkit.potion.PotionEffectType/FIRE_RESISTANCE
+                                20
+                                1))
+            (l/later 2
               (go-next vehicle new-loc passenger velocity))))))))
 
 ; SPEC STORY
@@ -89,7 +97,11 @@
                                  (.length actual-velocity))))))))))
 
 (try
-  (when-let [yet (Bukkit/getPlayer "yetdeseparate")]
+  (doseq [player (Bukkit/getOnlinePlayers)]
+    (w/strike-lightning-effect (.getLocation player))
+    (.sendMessage player "You got 1 minecart")
+    (w/drop-item (.getLocation player) (org.bukkit.inventory.ItemStack. Material/MINECART 1)))
+  #_(when-let [yet (Bukkit/getPlayer "yetdeseparate")]
     (dotimes [i (rand-nth [1 20 30 40])]
       (l/later (* 2 i)
         (w/play-effect (rand-around (.getLocation yet))

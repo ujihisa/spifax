@@ -48,7 +48,7 @@
     (.getDamager event)))
 
 (defn org.bukkit.event.entity.EntityDamageEvent [event]
-  #_(let [entity (.getEntity event)]
+  (let [entity (.getEntity event)]
     (when (and (instance? Player entity)
                (.getVehicle entity)
                (instance? Minecart (.getVehicle entity)))
@@ -61,9 +61,11 @@
             (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/MOUNT (.getSpawnReason event))
             (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/REINFORCEMENTS (.getSpawnReason event))
             (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/VILLAGE_INVASION (.getSpawnReason event)))
-    (let [loc (.getLocation (.getEntity event))]
+    (let [loc (.add (.getLocation (.getEntity event)) 0 -1 0)]
       (doseq [player (Bukkit/getOnlinePlayers)]
-        (.sendBlockChange player loc Material/NETHER_WART_BLOCK (byte 0)))
+        (if (= Material/WATER (.getType (.getBlock loc)))
+          (.sendBlockChange player loc Material/GLOWSTONE (byte 0))
+          (.sendBlockChange player loc Material/NETHER_WART_BLOCK (byte 0))))
       (l/later (l/sec 300)
         (doseq [player (Bukkit/getOnlinePlayers)]
           (.sendBlockChange player

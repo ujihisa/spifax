@@ -6,7 +6,7 @@
 
 (defn org.bukkit.event.player.PlayerToggleSneakEvent' [player player-loc sneaking? on-ground?]
   (when (and sneaking? (not on-ground?))
-    (let [items (for [entity (.getNearbyEntities player 20.0 5.0 20.0)
+    (let [items (for [entity (.getNearbyEntities player 20.0 10.0 20.0)
                       :when (or (instance? Item entity)
                                 (instance? ExperienceOrb entity))]
                   entity)]
