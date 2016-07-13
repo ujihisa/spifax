@@ -2,7 +2,13 @@
   (:require [sugot.lib :as l]
             [sugot.world :as w])
   (:import [org.bukkit Achievement Material]
-           [org.bukkit.inventory ItemStack]))
+           [org.bukkit.inventory ItemStack]
+           [org.bukkit.enchantments Enchantment]))
+
+(defn- set-name [item-stack name*]
+  (let [item-meta (.getItemMeta item-stack)]
+    (.setDisplayName item-meta name*)
+    (.setItemMeta item-stack item-meta)))
 
 (defn org.bukkit.event.player.PlayerAchievementAwardedEvent' [event get-player get-name get-achievement get-location add-level]
   (l/post-lingr (format "[ACHIEVEMENT] %s got %s"
@@ -34,6 +40,23 @@
                             (w/strike-lightning-effect loc)
                             (l/post-lingr "You got 64 pufferfishes")
                             (w/drop-item loc (ItemStack. Material/RAW_FISH 64 (short 0) (byte 3))))
+    Achievement/END_PORTAL (let [loc (get-location (get-player event))]
+                             (w/strike-lightning-effect loc)
+                             (l/post-lingr "You got 64 diamonds.")
+                             (w/drop-item loc (ItemStack. Material/DIAMOND 64)))
+    Achievement/FLY_PIG (let [loc (get-location (get-player event))]
+                          (w/strike-lightning-effect loc)
+                          (l/post-lingr "You got 80 more levels")
+                          (add-level (get-player event) 80))
+    Achievement/SNIPE_SKELETON (let [player (get-player event)
+                                     loc (get-location player)
+                                     bow (ItemStack. Material/BOW 1)]
+                                 (doto bow
+                                   (.addUnsafeEnchantment Enchantment/ARROW_DAMAGE 6)
+                                   (set-name (format "%sの弓" (.getName player))))
+                                 (w/strike-lightning-effect loc)
+                                 (l/post-lingr "You got a special bow.")
+                                 (w/drop-item loc bow))
     nil))
 
 (defn org.bukkit.event.player.PlayerAchievementAwardedEvent [event]
