@@ -63,7 +63,7 @@
             (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/VILLAGE_INVASION (.getSpawnReason event)))
     (let [loc (.add (.getLocation (.getEntity event)) 0 -1 0)]
       (doseq [player (Bukkit/getOnlinePlayers)]
-        (if (= Material/WATER (.getType (.getBlock loc)))
+        (if (.isLiquid (.getBlock loc))
           (.sendBlockChange player loc Material/GLOWSTONE (byte 0))
           (.sendBlockChange player loc Material/NETHER_WART_BLOCK (byte 0))))
       (l/later (l/sec 300)
