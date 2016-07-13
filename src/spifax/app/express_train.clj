@@ -32,22 +32,25 @@
                   (.sendBlockChange player loc (.getType (.getBlock loc)) (.getData (.getBlock loc))))))
             (.setYaw new-loc (.getYaw (.getLocation passenger)))
             (.setPitch new-loc (.getPitch (.getLocation passenger)))
-            (.teleport passenger (.add (.clone new-loc) 0 1 0))
-            (.teleport vehicle new-loc)
-            (.setPassenger vehicle passenger)
-            (.setVelocity vehicle velocity)
-            (.setFallDistance passenger 0)
-            (.setFallDistance vehicle 0)
             (let [chunk (.getChunk new-loc)]
               (when-not (.isLoaded chunk)
                 (.load chunk)))
-            (.addPotionEffect passenger
-                              (org.bukkit.potion.PotionEffect.
-                                org.bukkit.potion.PotionEffectType/FIRE_RESISTANCE
-                                20
-                                1))
-            (l/later 2
-              (go-next vehicle new-loc passenger velocity))))))))
+            (let [move (fn []
+                         (.teleport passenger (.add (.clone new-loc) 0 1 0))
+                         (.teleport vehicle new-loc)
+                         (.setPassenger vehicle passenger)
+                         (.setVelocity vehicle velocity))]
+              (move)
+              (.setFallDistance passenger 0)
+              (.setFallDistance vehicle 0)
+              (.addPotionEffect passenger
+                                (org.bukkit.potion.PotionEffect.
+                                  org.bukkit.potion.PotionEffectType/FIRE_RESISTANCE
+                                  20
+                                  1))
+              (l/later 1
+                (move)
+                (go-next vehicle new-loc passenger velocity)))))))))
 
 ; SPEC STORY
 ;   Player ujm takes a minecart.
@@ -96,7 +99,7 @@
                                  ", "
                                  (.length actual-velocity))))))))))
 
-(try
+#_(try
   (doseq [player (Bukkit/getOnlinePlayers)]
     (w/strike-lightning-effect (.getLocation player))
     (.sendMessage player "You got 1 minecart")
