@@ -15,8 +15,7 @@
       (let [msg (format (rand-nth ["[SINGLE_SLEEP] %sさんが寝ちゃったから、世界が朝になったヨ♥"
                                    "[SINGLE_SLEEP] Good morning, %s"
                                    "[SINGLE_SLEEP] %sさんおはようございます"
-                                   "[SINGLE_SLEEP] %sさんが寝たせいで世界が朝になってしまった...!?
-                                   "])
+                                   "[SINGLE_SLEEP] %sさんが寝たせいで世界が朝になってしまった...!?"])
                         player-name)]
         (l/post-lingr msg)
         (l/broadcast msg))
