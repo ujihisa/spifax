@@ -8,10 +8,10 @@
 
 (defn org.bukkit.event.player.PlayerPortalEvent [event]
   (let [new-loc (.getTo event)
-        message (format (rand-nth ["[MISC] %s entered %s via a portal (%d, %d)\n"
-                                   "[MISC] %sさんがポータルで%sに行った模様 (%d, %d)\n"
-                                   "[MISC] %sさんがポータルで%sに行けていたらどれだけよかったか... (%d, %d)\n"
-                                   "[MISC] %sさんがポポポポポポポターァルで%sに突入 (%d, %d)\n"])
+        message (format (rand-nth ["[MISC] %s entered %s via a portal (%d, %d)"
+                                   "[MISC] %sさんがポータルで%sに行った模様 (%d, %d)"
+                                   "[MISC] %sさんがポータルで%sに行けていたらどれだけよかったか... (%d, %d)"
+                                   "[MISC] %sさんがポポポポポポポターァルで%sに突入 (%d, %d)"])
                         (.getName (.getPlayer event))
                         (.getName (.getWorld new-loc))
                         (.getBlockX new-loc)
