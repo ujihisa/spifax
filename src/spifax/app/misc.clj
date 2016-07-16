@@ -3,9 +3,6 @@
   (:import [org.bukkit.entity Player Minecart]
            [org.bukkit Bukkit Material]))
 
-(defn org.bukkit.event.player.PlayerQuitEvent [event]
-  (l/post-lingr (.getQuitMessage event)))
-
 (defn org.bukkit.event.entity.PlayerDeathEvent [event]
   (l/post-lingr (.getDeathMessage event)))
 

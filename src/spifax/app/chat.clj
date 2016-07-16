@@ -11,3 +11,6 @@
 
 (defn org.bukkit.event.player.PlayerLoginEvent [event]
   (l/post-lingr (format "[LOGIN] %s logged in." (.getName (.getPlayer event)))))
+
+(defn org.bukkit.event.player.PlayerQuitEvent [event]
+  (l/post-lingr (format "[LOGOUT] %s logged out." (.getName (.getPlayer event)))))
