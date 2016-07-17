@@ -50,20 +50,6 @@
       (.setFlyingVelocityMod vehicle (Vector.))
       (w/play-sound next-loc Sound/ENTITY_MINECART_RIDING (float 0.2) (float 1.8))
       (l/later 0
-        (doseq [player (Bukkit/getOnlinePlayers)]
-          (l/later (l/sec 0.5)
-            (.sendBlockChange player next-loc Material/FIRE (byte 0)))
-          (l/later (l/sec 5)
-            (when (.isValid player)
-              (.sendBlockChange player next-loc (.getType (.getBlock next-loc)) (.getData (.getBlock next-loc))))))
-        (let [move (fn []
-                     (.setYaw next-loc (.getYaw (.getLocation passenger)))
-                     (.setPitch next-loc (.getPitch (.getLocation passenger)))
-                     (let [next-loc-above (.add (.clone next-loc) 0 1 0)]
-                       (.teleport passenger next-loc-above)
-                       (.teleport vehicle next-loc-above))
-                     (.setPassenger vehicle passenger)
-                     (.setVelocity vehicle velocity))]
           (.setFallDistance passenger 0)
           (.setFallDistance vehicle 0)
           (.addPotionEffect passenger
@@ -71,6 +57,19 @@
                               org.bukkit.potion.PotionEffectType/FIRE_RESISTANCE
                               20
                               1))
+        (let [move (fn []
+                     (doseq [player (Bukkit/getOnlinePlayers)]
+                       (.sendBlockChange player next-loc Material/FIRE (byte 0))
+                       (l/later (l/sec 5)
+                         (when (.isValid player)
+                           (.sendBlockChange player next-loc (.getType (.getBlock next-loc)) (.getData (.getBlock next-loc))))))
+                     (.setYaw next-loc (.getYaw (.getLocation passenger)))
+                     (.setPitch next-loc (.getPitch (.getLocation passenger)))
+                     (let [next-loc-above (.add (.clone next-loc) 0 1 0)]
+                       (.teleport passenger next-loc-above)
+                       (.teleport vehicle next-loc-above))
+                     (.setPassenger vehicle passenger)
+                     (.setVelocity vehicle velocity))]
           (l/later length
             (.setFlyingVelocityMod vehicle minecart-default-flying-velocity-mod)
             (when (can-go-next? vehicle passenger)
