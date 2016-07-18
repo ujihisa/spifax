@@ -69,9 +69,3 @@
                             loc
                             (.getType (.getBlock loc))
                             (.getData (.getBlock loc))))))))
-
-#_(try
-  (let [ujm (Bukkit/getPlayer "ujm")
-        item-stack (.getItemInHand ujm)]
-    (.setAmount item-stack 2))
-  (catch Exception e (prn e)))

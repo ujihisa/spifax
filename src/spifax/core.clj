@@ -28,8 +28,7 @@
                  org.bukkit.event.player.PlayerToggleSneakEvent
                  org.bukkit.event.entity.EntityDamageByEntityEvent
                  org.bukkit.event.entity.EntityDamageEvent
-                 org.bukkit.event.entity.CreatureSpawnEvent
-                 org.bukkit.event.inventory.InventoryInteractEvent]]
+                 org.bukkit.event.entity.CreatureSpawnEvent]]
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)
                               (.getName klass)))]
