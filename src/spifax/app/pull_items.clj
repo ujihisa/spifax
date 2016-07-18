@@ -12,7 +12,7 @@
                   entity)]
       (doseq [[i item] (map-indexed vector items)]
         (l/later (* 10 i)
-          (w/play-sound (.getLocation player) Sound/ENTITY_CAT_AMBIENT (float 1.0) (float 1.0))
+          (w/play-sound (.getLocation player) Sound/ENTITY_CAT_AMBIENT (float 0.2) (float 1.0))
           (.teleport item player-loc))))))
 
 (defn org.bukkit.event.player.PlayerToggleSneakEvent [event]
