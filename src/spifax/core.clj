@@ -29,7 +29,7 @@
                  org.bukkit.event.entity.EntityDamageByEntityEvent
                  org.bukkit.event.entity.EntityDamageEvent
                  org.bukkit.event.entity.CreatureSpawnEvent
-                 org.bukkit.event.inventory.InventoryMoveItemEvent]]
+                 org.bukkit.event.inventory.InventoryInteractEvent]]
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)
                               (.getName klass)))]

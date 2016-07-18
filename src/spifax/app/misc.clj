@@ -70,9 +70,6 @@
                             (.getType (.getBlock loc))
                             (.getData (.getBlock loc))))))))
 
-(defn org.bukkit.event.inventory.InventoryMoveItemEvent [event]
-  nil)
-
 #_(try
   (let [ujm (Bukkit/getPlayer "ujm")
         item-stack (.getItemInHand ujm)]
