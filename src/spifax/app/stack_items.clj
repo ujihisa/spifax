@@ -39,3 +39,10 @@
                         Sound/BLOCK_BREWING_STAND_BREW
                         (float 1.0)
                         (float 2.0)))))))
+
+(defn org.bukkit.event.inventory.InventoryMoveItemEvent [event]
+  (let [destination (.getDestination event)
+        source (.getSource event)
+        item-stack (.getItem event)]
+    (when-not (.isCancelled event)
+      (prn :destination destination :source source :item item-stack))))
