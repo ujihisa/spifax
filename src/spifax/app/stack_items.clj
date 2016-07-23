@@ -2,7 +2,8 @@
   (:require [sugot.lib :as l]
             [sugot.world :as w])
   (:import [org.bukkit Material Sound]
-           [org.bukkit.block Hopper Chest DoubleChest]))
+           [org.bukkit.block Hopper Chest DoubleChest]
+           [org.bukkit.inventory ItemStack]))
 
 ; Are `is1` `is2` same except for them?
 ; * amount
@@ -46,7 +47,8 @@
 
 (defn- get-last-item [inventory]
   (try
-    (.getItem inventory (dec (.firstEmpty inventory)))
+    (let [orig-idx (.firstEmpty inventory)]
+      [orig-idx (.getItem inventory (dec orig-idx))])
     (catch Exception e nil)))
 
 (defn org.bukkit.event.inventory.InventoryMoveItemEvent [event]
@@ -56,15 +58,17 @@
     (when (and
             (not (.isCancelled event))
             (is-potion? item-stack)
+            (= 1 (.getAmount item-stack))
             (instance? Hopper (.getHolder source))
             (or (instance? Chest (.getHolder destination))
                 (instance? DoubleChest (.getHolder destination))))
-      (let [last-item (get-last-item destination)]
+      (let [[orig-idx last-item] (get-last-item destination)]
         (when (and
                 last-item
                 (is-potion? last-item)
                 (< (.getAmount last-item) 64))
-          (.setCancelled event true)
-          (.setAmount last-item (inc (.getAmount last-item)))
+          (l/later 0
+            (.setAmount last-item (inc (.getAmount last-item)))
+            (.setItem destination orig-idx nil))
           #_(l/broadcast (prn-str :destination (.getHolder destination) :source (.getHolder source) :item item-stack
-                                :last (get-last-item destination))))))))
+          :last (get-last-item destination))))))))
