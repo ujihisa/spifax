@@ -70,10 +70,10 @@
                        (.teleport vehicle next-loc-above))
                      (.setPassenger vehicle passenger)
                      (.setVelocity vehicle velocity))]
-          (l/later length
-            (.setFlyingVelocityMod vehicle minecart-default-flying-velocity-mod)
-            (when (can-go-next? vehicle passenger)
-              (move)
+          (.setFlyingVelocityMod vehicle minecart-default-flying-velocity-mod)
+          (when (can-go-next? vehicle passenger)
+            (move)
+            (l/later length
               (go-next vehicle next-loc passenger velocity))))))))
 
 (defn org.bukkit.event.vehicle.VehicleMoveEvent [event]
