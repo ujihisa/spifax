@@ -10,7 +10,20 @@
     event #(.getPlayer %) #(.getName %) #(.getFormat %) #(.getMessage %)))
 
 (defn org.bukkit.event.player.PlayerLoginEvent [event]
-  (l/post-lingr (format "[LOGIN] %s logged in." (.getName (.getPlayer event)))))
+  (l/later 0
+    (let [player (.getPlayer event)
+          loc (.getLocation player)]
+      (l/post-lingr (format "[LOGIN] %s logged in at (%d, %d, %d)."
+                            (.getName player)
+                            (int (.getX loc))
+                            (int (.getY loc))
+                            (int (.getZ loc)))))))
 
 (defn org.bukkit.event.player.PlayerQuitEvent [event]
-  (l/post-lingr (format "[LOGOUT] %s logged out." (.getName (.getPlayer event)))))
+  (let [player (.getPlayer event)
+        loc (.getLocation player)]
+    (l/post-lingr (format "[LOGOUT] %s logged out at (%d, %d, %d)."
+                          (.getName player)
+                          (int (.getX loc))
+                          (int (.getY loc))
+                          (int (.getZ loc))))))
