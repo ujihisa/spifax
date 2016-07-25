@@ -16,12 +16,10 @@
         block-above1 (.getBlock (.add loc 0 1 0))
         block-above2 (.getBlock (.add loc 0 1 0))]
     (and
-      (not (.isOccluding (.getType block-above1)))
-      (not (.isOccluding (.getType block-above2))))))
+      (= Material/AIR (.getType block-above1))
+      (= Material/AIR (.getType block-above2)))))
 
-(def max-distance 20)
-
-(def move-unit 3)
+(def max-distance 30)
 
 (defn- block-below [loc]
   (.getBlock (.add (.clone loc)
@@ -46,7 +44,7 @@
                       Sound/ENTITY_MINECART_RIDING
                       (float 0.2) (float 1.8))
         (.teleport player @next-loc)
-        (l/later move-unit
+        (l/later 2
           (go-next (inc past-distance) player @next-loc tuple)))
       (let [player-name (.getName player)]
         (swap! player-state assoc player-name :idle)
@@ -70,9 +68,12 @@
         loc (.getFrom event)
         block-below (block-below loc)]
     (when (and
-            (= "ujm" player-name)
             (nil? (get @player-state player-name))
             (.isOnGround player))
-      (when-let [tuple (parse-stair block-below)]
-        (swap! player-state assoc player-name :moving)
-        (go-next 0 player loc tuple)))))
+      (when-let [[xdiff zdiff :as tuple] (parse-stair block-below)]
+        ; Only at the first time you confirm that the stairs continues
+        ; at least one more block
+        (when (is-stair? (.getBlock (.add (.getLocation block-below)
+                                          xdiff 0 zdiff)))
+          (swap! player-state assoc player-name :moving)
+          (go-next 0 player loc tuple))))))
