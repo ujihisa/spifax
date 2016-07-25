@@ -16,8 +16,8 @@
         block-above1 (.getBlock (.add loc 0 1 0))
         block-above2 (.getBlock (.add loc 0 1 0))]
     (and
-      (= Material/AIR (.getType block-above1))
-      (= Material/AIR (.getType block-above2)))))
+      (not (.isOccluding (.getType block-above1)))
+      (not (.isOccluding (.getType block-above2))))))
 
 (def max-distance 20)
 
@@ -27,31 +27,37 @@
   (.getBlock (.add (.clone loc)
                    0 -1 0)))
 
+(defn- is-stair? [block]
+  (.endsWith (.name (.getType block))
+             "STAIRS"))
+
 (defn- go-next [past-distance player loc [xdiff zdiff :as tuple]]
-  (if-let [next-loc (and
-                      (< past-distance max-distance)
-                      (.isValid player)
-                      (.add (.clone loc) xdiff 0 zdiff))]
-    (when (is-passable? next-loc)
-      (.setPitch next-loc (.getPitch (.getLocation player)))
-      (.setYaw next-loc (.getYaw (.getLocation player)))
-      (w/play-sound (.getLocation player)
-                    Sound/ENTITY_MINECART_RIDING
-                    (float 0.2) (float 1.8))
-      (.teleport player next-loc)
-      (l/later move-unit
-        (go-next (inc past-distance) player next-loc tuple)))
-    (let [player-name (.getName player)]
-      (swap! player-state assoc player-name :idle)
-      (l/later (l/sec 5)
-        (swap! player-state dissoc player-name)))))
+  (let [next-loc (delay
+                   (.add (.clone loc) xdiff 0 zdiff))]
+    (if (and
+          (< past-distance max-distance)
+          (.isValid player)
+          (is-stair? (block-below loc))
+          (is-passable? @next-loc))
+      (do
+        (.setPitch @next-loc (.getPitch (.getLocation player)))
+        (.setYaw @next-loc (.getYaw (.getLocation player)))
+        (w/play-sound (.getLocation player)
+                      Sound/ENTITY_MINECART_RIDING
+                      (float 0.2) (float 1.8))
+        (.teleport player @next-loc)
+        (l/later move-unit
+          (go-next (inc past-distance) player @next-loc tuple)))
+      (let [player-name (.getName player)]
+        (swap! player-state assoc player-name :idle)
+        (l/later (l/sec 5)
+          (swap! player-state dissoc player-name))))))
 
 (defn parse-stair
   "Returns nil if `block` is not a stair, or an inverted stair.
   Otherwise returns a tuple of xdiff/zdiff where it's facing."
   [block]
-  (when (.endsWith (.name (.getType block))
-                   "STAIRS")
+  (when (is-stair? block)
     (let [material-data (.getData (.getState block))]
       (when (and
               (not (.isInverted material-data)))
