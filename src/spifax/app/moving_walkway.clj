@@ -31,11 +31,13 @@
 
 (defn- go-next [past-distance player loc [xdiff zdiff :as tuple]]
   (let [next-loc (delay
-                   (.add (.clone loc) xdiff 0 zdiff))]
+                   (.add (.clone loc) xdiff 0 zdiff))
+        block-below (delay (block-below loc))]
     (if (and
           (< past-distance max-distance)
           (.isValid player)
-          (is-stair? (block-below loc))
+          (is-stair? @block-below)
+          (= tuple (parse-stair @block-below))
           (is-passable? @next-loc))
       (do
         (.setPitch @next-loc (.getPitch (.getLocation player)))
@@ -73,7 +75,9 @@
       (when-let [[xdiff zdiff :as tuple] (parse-stair block-below)]
         ; Only at the first time you confirm that the stairs continues
         ; at least one more block
-        (when (is-stair? (.getBlock (.add (.getLocation block-below)
-                                          xdiff 0 zdiff)))
+        (when (let [next-block (.getBlock (.add (.getLocation block-below)
+                                                xdiff 0 zdiff))]
+                (and (is-stair? next-block)
+                     (= tuple (parse-stair next-block))))
           (swap! player-state assoc player-name :moving)
           (go-next 0 player loc tuple))))))
