@@ -2,7 +2,7 @@
   (:require [sugot.lib :as l]
             [sugot.world :as w])
   (:import [org.bukkit Material Sound]
-           [org.bukkit.block Hopper Chest DoubleChest]
+           [org.bukkit.block Hopper Dropper Chest DoubleChest]
            [org.bukkit.inventory ItemStack]))
 
 ; Are `is1` `is2` same except for them?
@@ -59,7 +59,8 @@
             (not (.isCancelled event))
             (is-potion? item-stack)
             (= 1 (.getAmount item-stack))
-            (instance? Hopper (.getHolder source))
+            (or (instance? Hopper (.getHolder source))
+                (instance? Dropper (.getHolder source)))
             (or (instance? Chest (.getHolder destination))
                 (instance? DoubleChest (.getHolder destination))))
       (let [[orig-idx last-item] (get-last-item destination)]
