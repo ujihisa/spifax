@@ -16,7 +16,7 @@
                  [compojure "1.5.1"]
                  [ring/ring-defaults "0.2.1"]
                  [org.spigotmc/spigot-api "1.10-R0.1-SNAPSHOT"]
-                 [org.spigotmc/spigot "1.10"]
+                 [org.spigotmc/spigot "1.10.2"]
                  [clj-http "3.1.0"]
                  ; I don't know why, but you can't let `sugot` fetch `spigot` and `spigot-api`,
                  ; otherwise you'll get a runtime error at ring bootup
