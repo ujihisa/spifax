@@ -9,7 +9,9 @@
                  "spigot-repo"
                  "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
                  "raa0121"
-                 "http://jenkins.raa0121.info/userContent/repository/"}
+                 "http://jenkins.raa0121.info/userContent/repository/"
+                 "localrepo1"
+                 "file://myrepo"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [compojure "1.5.1"]
                  [ring/ring-defaults "0.2.1"]
