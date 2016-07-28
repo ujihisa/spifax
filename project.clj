@@ -8,8 +8,8 @@
                  "http://repo.bukkit.org/content/groups/public/"
                  "spigot-repo"
                  "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
-                 "localrepo1"
-                 "file://myrepo"}
+                 "raa0121"
+                 "http://jenkins.raa0121.info/userContent/repository/"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [compojure "1.5.1"]
                  [ring/ring-defaults "0.2.1"]
