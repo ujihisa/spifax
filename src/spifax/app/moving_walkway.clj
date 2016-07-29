@@ -29,6 +29,17 @@
   (.endsWith (.name (.getType block))
              "STAIRS"))
 
+(defn- parse-stair
+  "Returns nil if `block` is not a stair, or an inverted stair.
+  Otherwise returns a tuple of xdiff/zdiff where it's facing."
+  [block]
+  (when (is-stair? block)
+    (let [material-data (.getData (.getState block))]
+      (when (and
+              (not (.isInverted material-data)))
+        (let [block-face (.getAscendingDirection material-data)]
+          [(.getModX block-face) (.getModZ block-face)])))))
+
 (defn- go-next [past-distance player loc [xdiff zdiff :as tuple]]
   (let [next-loc (delay
                    (.add (.clone loc) xdiff 0 zdiff))
@@ -52,17 +63,6 @@
         (swap! player-state assoc player-name :idle)
         (l/later (l/sec 5)
           (swap! player-state dissoc player-name))))))
-
-(defn parse-stair
-  "Returns nil if `block` is not a stair, or an inverted stair.
-  Otherwise returns a tuple of xdiff/zdiff where it's facing."
-  [block]
-  (when (is-stair? block)
-    (let [material-data (.getData (.getState block))]
-      (when (and
-              (not (.isInverted material-data)))
-        (let [block-face (.getAscendingDirection material-data)]
-          [(.getModX block-face) (.getModZ block-face)])))))
 
 (defn org.bukkit.event.player.PlayerMoveEvent [event]
   (let [player (.getPlayer event)
