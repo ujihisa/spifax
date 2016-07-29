@@ -4,7 +4,7 @@
 
 (def threshold-night 12541)
 (def threshold-morning 23459)
-(def players-sleeping (atom #{}))
+(defonce players-sleeping (atom #{}))
 
 (defn org.bukkit.event.player.PlayerBedEnterEvent* [player-name world get-time set-time]
   (swap! players-sleeping conj player-name)

@@ -5,10 +5,10 @@
            [org.bukkit.entity Player Minecart]
            [org.bukkit.util Vector]))
 
-(def player-state
-  "nil    You can start using walkway if conditions satisfy.
+(defonce player-state
+  ^{:doc "nil    You can start using walkway if conditions satisfy.
   :moving Walkway is working. You can change pitch/yaw but you can't move
-  :idle   Walkway completed. Wait for a while to use again."
+  :idle   Walkway completed. Wait for a while to use again."}
   (atom {}))
 
 (defn- is-passable? [loc]
