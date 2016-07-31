@@ -69,12 +69,13 @@
 
 (defn- move-to-the-centre [player stair before-loc set-after-loc]
   (let [loc (.add (.getLocation stair)
-                  (if (< 0 x) 0.5 -0.5)
+                  0.5
                   1.0
-                  (if (< 0 z) 0.5 -0.5))]
+                  0.5)]
     (.setPitch loc (.getPitch before-loc))
     (.setYaw loc (.getYaw before-loc))
-    (set-after-loc loc)))
+    (set-after-loc loc)
+    loc))
 
 (defn org.bukkit.event.player.PlayerMoveEvent [event]
   (let [player (.getPlayer event)
@@ -92,6 +93,6 @@
                 (and (is-stair? next-block)
                      (= tuple (parse-stair next-block))))
           ; If it looks good, adjust to the centre.
-          (move-to-the-centre player block-below loc #(.setTo event))
-          (swap! player-state assoc player-name :moving)
-          (go-next 0 player loc tuple))))))
+          (let [centre-loc (move-to-the-centre player block-below loc #(.setTo event %))]
+            (swap! player-state assoc player-name :moving)
+            (go-next 0 player centre-loc tuple)))))))
