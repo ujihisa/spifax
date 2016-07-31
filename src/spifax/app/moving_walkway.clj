@@ -40,16 +40,19 @@
         (let [block-face (.getAscendingDirection material-data)]
           [(.getModX block-face) (.getModZ block-face)])))))
 
-(defn- go-next [past-distance player loc [xdiff zdiff :as tuple]]
+(defn- go-next
+  "This chains itself, as long as some conditions are satisfied."
+  [past-distance player loc [xdiff zdiff :as tuple]]
   (let [next-loc (delay
                    (.add (.clone loc) xdiff 0 zdiff))
-        block-below (delay (block-below loc))]
-    (if (and
-          (< past-distance max-distance)
-          (.isValid player)
-          (is-stair? @block-below)
-          (= tuple (parse-stair @block-below))
-          (is-passable? @next-loc))
+        block-below (delay (block-below loc))
+        continue? (and
+                    (< past-distance max-distance)
+                    (.isValid player)
+                    (is-stair? @block-below)
+                    (= tuple (parse-stair @block-below))
+                    (is-passable? @next-loc))]
+    (if continue?
       (do
         (.setPitch @next-loc (.getPitch (.getLocation player)))
         (.setYaw @next-loc (.getYaw (.getLocation player)))
