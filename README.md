@@ -10,10 +10,10 @@ FIXME
 
 ## How to run the minecraft server
 
-1. Install sugot
+1. Install spifax
     1. Prepare `spigot-1.10.2.jar` https://www.spigotmc.org/wiki/buildtools/
     2. Install it with `lein deploy localrepo1 org.spigotmc/spigot 1.10.2 spigot-1.10.2.jar`
-    3. `lein install` in sugot dir
+    3. `lein install` in spifax dir
 2. `lein ring server-headless`
 
 ## Development Notes
