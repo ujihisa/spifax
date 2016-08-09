@@ -64,7 +64,7 @@
           (go-next (inc past-distance) player @next-loc tuple)))
       (let [player-name (.getName player)]
         (swap! player-state assoc player-name :idle)
-        (l/later (l/sec 5)
+        (l/later (l/sec 0.5)
           (swap! player-state dissoc player-name))))))
 
 (defn- move-to-the-centre [player stair before-loc set-after-loc]
