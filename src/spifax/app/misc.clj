@@ -1,5 +1,6 @@
 (ns spifax.app.misc
-  (:require [sugot.lib :as l])
+  (:require [sugot.lib :as l]
+            [sugot.world :as w])
   (:import [org.bukkit.entity Player Minecart]
            [org.bukkit Bukkit Material]))
 
@@ -68,4 +69,14 @@
           (.sendBlockChange player
                             loc
                             (.getType (.getBlock loc))
-                            (.getData (.getBlock loc))))))))
+                            (.getData (.getBlock loc)))))))
+  ; spawn 4 at the same time
+  (when (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/NATURAL (.getSpawnReason event))
+    (dotimes [_ 3]
+      (let [entity (.getEntity event)
+            loc (.add (.getLocation entity)
+                      (* 0.1 (- (rand) 0.5))
+                      0
+                      (* 0.1 (- (rand) 0.5)))]
+        (let [new-entity (w/spawn loc (class entity))]
+          "do nothing for now")))))
