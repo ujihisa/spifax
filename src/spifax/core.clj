@@ -12,7 +12,8 @@
   (doseq [namespace* ['spifax.app.chat 'spifax.app.bonus-achievement
                       'spifax.app.misc 'spifax.app.gold 'spifax.app.single-sleep
                       'spifax.app.express-train 'spifax.app.pull-items
-                      'spifax.app.stack-items 'spifax.app.moving-walkway]
+                      'spifax.app.stack-items 'spifax.app.moving-walkway
+                      'spifax.app.bonus-boss]
           _ [(require namespace*)]
           klass [org.bukkit.event.player.AsyncPlayerChatEvent
                  org.bukkit.event.player.PlayerLoginEvent
