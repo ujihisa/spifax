@@ -70,8 +70,10 @@
                             loc
                             (.getType (.getBlock loc))
                             (.getData (.getBlock loc)))))))
-  ; spawn 4 at the same time
-  (when (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/NATURAL (.getSpawnReason event))
+  ; spawn 4 at the same time, only in the wholeworld
+  (when (and
+          (= "world" (.getName (.getWorld (.getLocation (.getEntity event)))))
+          (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/NATURAL (.getSpawnReason event)))
     (dotimes [_ 3]
       (let [entity (.getEntity event)
             loc (.add (.getLocation entity)
