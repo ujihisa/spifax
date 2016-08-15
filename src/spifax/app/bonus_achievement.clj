@@ -1,14 +1,9 @@
 (ns spifax.app.bonus-achievement
   (:require [sugot.lib :as l]
-            [sugot.world :as w])
+            [sugot.world :as w]
+            [spifax.lib])
   (:import [org.bukkit Achievement Material]
-           [org.bukkit.inventory ItemStack]
-           [org.bukkit.enchantments Enchantment]))
-
-(defn- set-name [item-stack name*]
-  (let [item-meta (.getItemMeta item-stack)]
-    (.setDisplayName item-meta name*)
-    (.setItemMeta item-stack item-meta)))
+           [org.bukkit.inventory ItemStack]))
 
 (defn org.bukkit.event.player.PlayerAchievementAwardedEvent' [event get-player get-name get-achievement get-location add-level]
   (l/post-lingr (format "[ACHIEVEMENT] %s got %s"
@@ -50,12 +45,13 @@
                           (add-level (get-player event) 80))
     Achievement/SNIPE_SKELETON (let [player (get-player event)
                                      loc (get-location player)
-                                     bow (ItemStack. Material/BOW 1)]
-                                 (doto bow
-                                   (.addUnsafeEnchantment Enchantment/ARROW_DAMAGE 6)
-                                   (set-name (format "%sの弓" (.getName player))))
+                                     player-name (.getName player)
+                                     bow (spifax.lib/create-power6-named-bow player-name)
+                                     msg (format "[BONUS_ACHIEVEMENT] %s got a special bow."
+                                                 player-name)]
                                  (w/strike-lightning-effect loc)
-                                 (l/post-lingr "You got a special bow.")
+                                 (l/broadcast msg)
+                                 (l/post-lingr msg)
                                  (w/drop-item loc bow))
     nil))
 
