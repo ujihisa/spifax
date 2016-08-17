@@ -38,7 +38,8 @@
                  org.bukkit.event.block.BlockPlaceEvent
                  org.bukkit.event.vehicle.VehicleExitEvent
                  org.bukkit.event.entity.ProjectileLaunchEvent
-                 org.bukkit.event.player.PlayerInteractAtEntityEvent]]
+                 org.bukkit.event.player.PlayerInteractAtEntityEvent
+                 org.bukkit.event.player.PlayerInteractEvent]]
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)
                               (.getName klass)))]
@@ -56,7 +57,10 @@
   "It's called right after minecraft server is ready"
   [pm]
   (prn :server-ready)
-  (register-all-events pm))
+  (register-all-events pm)
+  ;DIRTY HACK
+  (require 'spifax.app.hardcore)
+  ((ns-resolve 'spifax.app.hardcore 'on-load)))
 
 (defn init
   "spifax.core/init is the ring server init, registered at project.clj"
