@@ -34,5 +34,8 @@
 (defn org.bukkit.event.player.PlayerInteractEvent [event]
   (sugot.app.hardcore/PlayerInteractEvent event))
 
+(defn org.bukkit.event.entity.PlayerDeathEvent [event]
+  (sugot.app.hardcore/PlayerDeathEvent event))
+
 (defn on-load []
   (sugot.app.hardcore/on-load))
