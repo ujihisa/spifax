@@ -15,31 +15,31 @@
                       'spifax.app.stack-items 'spifax.app.moving-walkway
                       'spifax.app.hardcore]
           _ [(require namespace*)]
-          klass [org.bukkit.event.player.AsyncPlayerChatEvent
-                 org.bukkit.event.player.PlayerLoginEvent
-                 org.bukkit.event.player.PlayerQuitEvent
+          klass [org.bukkit.event.block.BlockBreakEvent
+                 org.bukkit.event.block.BlockPlaceEvent
+                 org.bukkit.event.entity.CreatureSpawnEvent
+                 org.bukkit.event.entity.EntityDamageByEntityEvent
+                 org.bukkit.event.entity.EntityDamageEvent
+                 org.bukkit.event.entity.EntityDeathEvent
                  org.bukkit.event.entity.PlayerDeathEvent
+                 org.bukkit.event.entity.ProjectileHitEvent
+                 org.bukkit.event.entity.ProjectileLaunchEvent
+                 org.bukkit.event.inventory.InventoryMoveItemEvent
+                 org.bukkit.event.player.AsyncPlayerChatEvent
                  org.bukkit.event.player.PlayerAchievementAwardedEvent
                  org.bukkit.event.player.PlayerBedEnterEvent
                  org.bukkit.event.player.PlayerBedLeaveEvent
-                 org.bukkit.event.entity.EntityDeathEvent
-                 org.bukkit.event.player.PlayerPortalEvent
-                 org.bukkit.event.vehicle.VehicleMoveEvent
-                 org.bukkit.event.weather.LightningStrikeEvent
-                 org.bukkit.event.block.BlockBreakEvent
-                 org.bukkit.event.player.PlayerToggleSneakEvent
-                 org.bukkit.event.entity.EntityDamageByEntityEvent
-                 org.bukkit.event.entity.EntityDamageEvent
-                 org.bukkit.event.entity.CreatureSpawnEvent
-                 org.bukkit.event.inventory.InventoryMoveItemEvent
-                 org.bukkit.event.player.PlayerMoveEvent
                  org.bukkit.event.player.PlayerDropItemEvent
-                 org.bukkit.event.entity.ProjectileHitEvent
-                 org.bukkit.event.block.BlockPlaceEvent
-                 org.bukkit.event.vehicle.VehicleExitEvent
-                 org.bukkit.event.entity.ProjectileLaunchEvent
                  org.bukkit.event.player.PlayerInteractAtEntityEvent
-                 org.bukkit.event.player.PlayerInteractEvent]]
+                 org.bukkit.event.player.PlayerInteractEvent
+                 org.bukkit.event.player.PlayerLoginEvent
+                 org.bukkit.event.player.PlayerMoveEvent
+                 org.bukkit.event.player.PlayerPortalEvent
+                 org.bukkit.event.player.PlayerQuitEvent
+                 org.bukkit.event.player.PlayerToggleSneakEvent
+                 org.bukkit.event.vehicle.VehicleExitEvent
+                 org.bukkit.event.vehicle.VehicleMoveEvent
+                 org.bukkit.event.weather.LightningStrikeEvent]]
     (let [sym (symbol (format "%s/%s"
                               (name namespace*)
                               (.getName klass)))]
