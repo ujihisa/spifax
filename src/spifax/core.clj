@@ -13,7 +13,7 @@
                       'spifax.app.misc 'spifax.app.gold 'spifax.app.single-sleep
                       'spifax.app.express-train 'spifax.app.pull-items
                       'spifax.app.stack-items 'spifax.app.moving-walkway
-                      'spifax.app.hardcore]
+                      'spifax.app.hardcore 'spifax.app.elytra-boost]
           _ [(require namespace*)]
           klass [org.bukkit.event.block.BlockBreakEvent
                  org.bukkit.event.block.BlockPlaceEvent
