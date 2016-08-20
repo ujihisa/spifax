@@ -45,7 +45,7 @@
                                          (fn inc-f [loc]
                                            (.add (.clone loc)
                                                  direction))
-                                         10)]
+                                         20)]
     (when (not= length 0)
       (.setFlyingVelocityMod vehicle (Vector.))
       (w/play-sound next-loc Sound/ENTITY_MINECART_RIDING (float 0.2) (float 1.8))
