@@ -87,15 +87,19 @@
 ; Set of player names, not to update too often
 (defonce speedometer (atom #{}))
 
+(defn- speedometer? [item-stack]
+  (and
+    item-stack
+    (@#'sugot.app.hardcore/magic-compass? item-stack)
+    (not (sugot.app.hardcore/loc-in-hardcore? (.getLocation player)))))
+
 (defn org.bukkit.event.player.PlayerToggleSneakEvent [event]
   (let [player (.getPlayer event)
         item-stack (delay (.getItemInHand player))]
     (when (and
             (.isSneaking event)
             (not (.isOnGround player))
-            @item-stack
-            (@#'sugot.app.hardcore/magic-compass? @item-stack)
-            (not (sugot.app.hardcore/loc-in-hardcore? (.getLocation player))))
+            (speedometer? @item-stack))
       (let [pname (.getName player)]
         (when-not (@speedometer pname)
           (let [before-loc (.getLocation player)]
@@ -103,7 +107,9 @@
             (l/later (l/sec 1)
               (when (.isValid player)
                 (let [after-loc (.getLocation player)]
-                  (when (= (.getWorld before-loc) (.getWorld after-loc))
+                  (when (and
+                          (= (.getWorld before-loc) (.getWorld after-loc))
+                          (speedometer? @item-stack))
                     (let [new-name (format "%.2f m/s" (.distance before-loc after-loc))]
                       (swap! speedometer dissoc pname)
                       (@#'l/set-name @item-stack new-name))))))))))))
