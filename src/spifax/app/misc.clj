@@ -1,6 +1,7 @@
 (ns spifax.app.misc
   (:require [sugot.lib :as l]
-            [sugot.world :as w])
+            [sugot.world :as w]
+            [spifax.app.hardcore])
   (:import [org.bukkit.entity Player Minecart]
            [org.bukkit Bukkit Material]))
 
@@ -82,3 +83,27 @@
                       (* 0.1 (- (rand) 0.5)))]
         (let [new-entity (w/spawn loc (class entity))]
           "do nothing for now")))))
+
+; Set of player names, not to update too often
+(defonce speedometer (atom #{}))
+
+(defn org.bukkit.event.player.PlayerToggleSneakEvent [event]
+  (let [player (.getPlayer event)
+        item-stack (delay (.getItemInHand player))]
+    (when (and
+            (.isSneaking event)
+            (not (.isOnGround player))
+            @item-stack
+            (@#'sugot.app.hardcore/magic-compass? @item-stack)
+            (not (sugot.app.hardcore/loc-in-hardcore? (.getLocation player))))
+      (let [pname (.getName player)]
+        (when-not (@speedometer pname)
+          (let [before-loc (.getLocation player)]
+            (swap! speedometer assoc pname)
+            (l/later (l/sec 1)
+              (when (.isValid player)
+                (let [after-loc (.getLocation player)]
+                  (when (= (.getWorld before-loc) (.getWorld after-loc))
+                    (let [new-name (format "%.2f m/s" (.distance before-loc after-loc))]
+                      (swap! speedometer dissoc pname)
+                      (@#'l/set-name @item-stack new-name))))))))))))
