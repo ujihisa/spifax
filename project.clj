@@ -4,9 +4,7 @@
   :license {:name "GPL3 or any later versions"
             :url "http://www.gnu.org/licenses/gpl-3.0.en.html"}
   :min-lein-version "2.5.0"
-  :repositories {"org.bukkit"
-                 "http://repo.bukkit.org/content/groups/public/"
-                 "spigot-repo"
+  :repositories {"spigot-repo"
                  "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
                  "raa0121"
                  {:url "http://jenkins.raa0121.info/userContent/repository/" :checksum :warn}
