@@ -1,7 +1,8 @@
 (ns spifax.app.misc
   (:require [sugot.lib :as l]
             [sugot.world :as w]
-            [spifax.app.hardcore])
+            [spifax.app.hardcore]
+            [spifax.lib])
   (:import [org.bukkit.entity Player Minecart]
            [org.bukkit Bukkit Material]))
 
@@ -49,10 +50,12 @@
 (defn org.bukkit.event.entity.EntityDamageEvent [event]
   (let [entity (.getEntity event)]
     (when (and (instance? Player entity)
-               (.getVehicle entity)
-               (instance? Minecart (.getVehicle entity)))
+               #_(.getVehicle entity)
+               #_(instance? Minecart (.getVehicle entity)))
       (.sendMessage entity
-                    (format "[MISC] %s" [(.getCause event)])))))
+                    (format "[MISC] %s (%f)"
+                            (.name (.getCause event))
+                            (.getFinalDamage event))))))
 
 (defn org.bukkit.event.entity.CreatureSpawnEvent [event]
   (when (or (= org.bukkit.event.entity.CreatureSpawnEvent$SpawnReason/NATURAL (.getSpawnReason event))
@@ -87,29 +90,30 @@
 ; Set of player names, not to update too often
 (defonce speedometer (atom #{}))
 
-(defn- speedometer? [item-stack]
+(defn- speedometer? [item-stack loc]
   (and
     item-stack
     (@#'sugot.app.hardcore/magic-compass? item-stack)
-    (not (sugot.app.hardcore/loc-in-hardcore? (.getLocation player)))))
+    (= 1 (.getAmount item-stack))
+    (not (sugot.app.hardcore/loc-in-hardcore? loc))))
 
 (defn org.bukkit.event.player.PlayerToggleSneakEvent [event]
-  (let [player (.getPlayer event)
+  #_(let [player (.getPlayer event)
         item-stack (delay (.getItemInHand player))]
     (when (and
             (.isSneaking event)
             (not (.isOnGround player))
-            (speedometer? @item-stack))
+            (speedometer? @item-stack (.getLocation player)))
       (let [pname (.getName player)]
         (when-not (@speedometer pname)
           (let [before-loc (.getLocation player)]
-            (swap! speedometer assoc pname)
+            (swap! speedometer conj pname)
             (l/later (l/sec 1)
               (when (.isValid player)
                 (let [after-loc (.getLocation player)]
                   (when (and
                           (= (.getWorld before-loc) (.getWorld after-loc))
-                          (speedometer? @item-stack))
+                          (speedometer? @item-stack after-loc))
                     (let [new-name (format "%.2f m/s" (.distance before-loc after-loc))]
-                      (swap! speedometer dissoc pname)
-                      (@#'l/set-name @item-stack new-name))))))))))))
+                      (swap! speedometer disj pname)
+                      (@#'spifax.lib/set-name @item-stack new-name))))))))))))
