@@ -6,13 +6,13 @@ FIXME
 
 * leiningen 2.5.0+
 * [sugot](http://github.com/ujihisa/sugot)
-* spigot 1.10.2 (see below)
+* spigot 1.11 (see below)
 
 ## How to run the minecraft server
 
 1. Install spifax dependency
-    1. Prepare `spigot-1.10.2.jar` https://www.spigotmc.org/wiki/buildtools/
-    2. Install it with `lein deploy localrepo1 org.spigotmc/spigot 1.10.2 ./spigot-1.10.2.jar` in spifax dir
+    1. Prepare `spigot-1.11.jar` https://www.spigotmc.org/wiki/buildtools/
+    2. Install it with `lein deploy localrepo1 org.spigotmc/spigot 1.11 ./spigot-1.11.jar` in spifax dir
 2. `lein ring server-headless`
 
 ## Development Notes

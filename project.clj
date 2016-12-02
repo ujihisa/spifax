@@ -18,9 +18,9 @@
                  [clj-http "3.1.0"]
                  ; I don't know why, but you can't let `sugot` fetch `spigot` and `spigot-api`,
                  ; otherwise you'll get a runtime error at ring bootup
-                 [sugot "1.9-SNAPSHOT" :exclusions [com.google.guava/guava
-                                           com.google.code.gson/gson
-                                           clj-http]]]
+                 [sugot "1.10-SNAPSHOT" :exclusions [com.google.guava/guava
+                                                     com.google.code.gson/gson
+                                                     clj-http]]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:init spifax.core/init
          :handler spifax.handler/app}
