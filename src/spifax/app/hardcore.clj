@@ -3,8 +3,9 @@
             [sugot.world :as w]
             [sugot.lib :as l])
   (:import [org.bukkit.entity Skeleton]
-           [org.bukkit.event.entity CreatureSpawnEvent$SpawnReason]
-           [org.bukkit.entity Skeleton$SkeletonType]))
+           [org.bukkit.entity Stray]
+           [org.bukkit.entity WitherSkeleton]
+           [org.bukkit.event.entity CreatureSpawnEvent$SpawnReason]))
 
 (defn org.bukkit.event.player.PlayerDropItemEvent [event]
   (sugot.app.hardcore/PlayerDropItemEvent event))
@@ -41,9 +42,7 @@
                        reason)
             (= 1 (rand-int 2)))
       (l/later (l/sec 1)
-        (let [new-skeleton (w/spawn l Skeleton)
-              skeleton-type (rand-nth [Skeleton$SkeletonType/STRAY Skeleton$SkeletonType/WITHER])]
-          (.setSkeletonType new-skeleton skeleton-type))))))
+        (w/spawn l (rand-nth [Stray WitherSkeleton]))))))
 
 (defn org.bukkit.event.entity.ProjectileLaunchEvent [event]
   (sugot.app.hardcore/ProjectileLaunchEvent event))
