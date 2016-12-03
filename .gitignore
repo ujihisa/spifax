@@ -30,5 +30,7 @@ pom.xml.asc
 /localrepo1
 /spigot
 /tags
+/hardcore-players.clj
+/hardcore/
 
 *.tgz
