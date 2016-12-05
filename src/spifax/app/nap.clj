@@ -7,9 +7,9 @@
 (def threshold-night 12541)
 
 (defn org.bukkit.event.player.PlayerInteractEvent*
-  [event action block now player get-location get-name]
-  (when (and (= action Action/RIGHT_CLICK_BLOCK)
-             (= block Material/BED_BLOCK)
+  [event block action now player get-location get-name]
+  (when (and (= block Material/BED_BLOCK)
+             (= action Action/RIGHT_CLICK_BLOCK)
              (< now threshold-night))
     (let [msg (format "[NAP] %sさんがお昼寝しました" (get-name player))]
       (l/broadcast msg))
@@ -19,8 +19,8 @@
 (defn org.bukkit.event.player.PlayerInteractEvent [event]
   (#'org.bukkit.event.player.PlayerInteractEvent*
     event
-    (.getAction event)
     (some-> event .getClickedBlock .getType)
+    (.getAction event)
     (.getTime (.getWorld (.getPlayer event)))
     (.getPlayer event)
     (fn [player]
