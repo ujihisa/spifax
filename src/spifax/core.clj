@@ -18,6 +18,7 @@
                       'spifax.app.hardcore
                       'spifax.app.misc
                       'spifax.app.moving-walkway
+                      'spifax.app.nap
                       'spifax.app.pull-items
                       'spifax.app.single-sleep
                       'spifax.app.stack-items]
