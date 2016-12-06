@@ -16,6 +16,7 @@
                       'spifax.app.express-train
                       'spifax.app.gold
                       'spifax.app.hardcore
+                      'spifax.app.kikori
                       'spifax.app.misc
                       'spifax.app.moving-walkway
                       'spifax.app.nap
