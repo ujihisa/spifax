@@ -14,7 +14,7 @@
     (let [msg (format "[NAP] %sさんがお昼寝しました" (get-name player))]
       (l/broadcast msg))
     (.setBedSpawnLocation player (get-location player) true)
-    (.setCancelled event true)))
+    (l/set-cancelled event)))
 
 (defn org.bukkit.event.player.PlayerInteractEvent [event]
   (#'org.bukkit.event.player.PlayerInteractEvent*
