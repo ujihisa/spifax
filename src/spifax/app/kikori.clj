@@ -20,8 +20,8 @@
       (let [block (.getRelative base-block x y z)]
         (kikori block)))))
 
-(defn org.bukkit.event.player.PlayerInteractEvent* [item-in-main-hand action block]
-  (when (and (kikori-axe? item-in-main-hand)
+(defn org.bukkit.event.player.PlayerInteractEvent* [item action block]
+  (when (and (kikori-axe? item)
              (= action Action/RIGHT_CLICK_BLOCK))
     (kikori block)))
 
