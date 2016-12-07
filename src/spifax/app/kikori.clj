@@ -1,12 +1,18 @@
 (ns spifax.app.kikori
   (:require [sugot.lib :as l]
             [sugot.world :as w])
-  (:import [org.bukkit Material]
+  (:import [org.bukkit Material Sound]
            [org.bukkit.event.block Action]))
 
 (defn- kikori-axe? [item]
   (and (= (.getType item) Material/WOOD_AXE)
        (= (l/get-display-name item) "Kikori's Axe")))
+
+(defn- use-kikori-axe [item]
+  (.setDurability item (+ (.getDurability item) 1)))
+
+(defn- break-kikori-axe? [item]
+  (< (.getMaxDurability Material/WOOD_AXE) (.getDurability item)))
 
 (defn- wood-block? [block]
   (contains? #{Material/LOG Material/LOG_2} (.getType block)))
@@ -20,13 +26,22 @@
       (let [block (.getRelative base-block x y z)]
         (kikori block)))))
 
-(defn org.bukkit.event.player.PlayerInteractEvent* [item action block]
+(defn org.bukkit.event.player.PlayerInteractEvent* [item action block remove-item play-sound]
   (when (and (kikori-axe? item)
              (= action Action/RIGHT_CLICK_BLOCK))
-    (kikori block)))
+    (when (wood-block? block)
+      (use-kikori-axe item)
+      (when (break-kikori-axe? item)
+        (remove-item item)
+        (play-sound Sound/ENTITY_ITEM_BREAK))
+      (kikori block))))
 
 (defn org.bukkit.event.player.PlayerInteractEvent [event]
   (#'org.bukkit.event.player.PlayerInteractEvent*
     (.getItemInMainHand (.getInventory (.getPlayer event)))
     (.getAction event)
-    (.getClickedBlock event)))
+    (.getClickedBlock event)
+    (fn [item]
+      (.remove (.getInventory (.getPlayer event)) item))
+    (fn [sound]
+      (w/play-sound (.getLocation (.getPlayer event)) sound (float 1.0) (float 1.0)))))
