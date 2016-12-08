@@ -37,7 +37,8 @@
       (when (break-kikori-axe? item)
         (l/consume-item player)
         (play-sound Sound/ENTITY_ITEM_BREAK))
-      (kikori block 0))))
+      (kikori block 0)
+      (play-sound Sound/BLOCK_WOOD_BREAK))))
 
 (defn org.bukkit.event.player.PlayerInteractEvent [event]
   (#'org.bukkit.event.player.PlayerInteractEvent*
