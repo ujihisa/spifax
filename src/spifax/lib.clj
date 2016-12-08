@@ -14,3 +14,8 @@
     (doto bow
       (.addUnsafeEnchantment Enchantment/ARROW_DAMAGE 6)
       (set-name (format "%sの弓" player-name)))))
+
+(defn inc-durability
+  "This does not check if it gets broken. It just increments."
+  [item-stack]
+  (.setDurability item-stack (inc (.getDurability item-stack))))

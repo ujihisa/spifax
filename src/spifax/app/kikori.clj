@@ -1,6 +1,7 @@
 (ns spifax.app.kikori
   (:require [sugot.lib :as l]
-            [sugot.world :as w])
+            [sugot.world :as w]
+            [spifax.lib])
   (:import [org.bukkit Material Sound]
            [org.bukkit.event.block Action]))
 
@@ -9,9 +10,6 @@
 (defn- kikori-axe? [item]
   (and (= (.getType item) Material/WOOD_AXE)
        (= (l/get-display-name item) "Kikori's Axe")))
-
-(defn- use-kikori-axe [item]
-  (.setDurability item (inc (.getDurability item))))
 
 (defn- break-kikori-axe? [item]
   (< (.getMaxDurability Material/WOOD_AXE) (.getDurability item)))
@@ -33,7 +31,7 @@
   (when (and (kikori-axe? item)
              (= action Action/RIGHT_CLICK_BLOCK))
     (when (wood-block? block)
-      (use-kikori-axe item)
+      (spifax.lib/inc-durability item)
       (when (break-kikori-axe? item)
         (l/consume-item player)
         (play-sound Sound/ENTITY_ITEM_BREAK))

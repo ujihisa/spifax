@@ -1,6 +1,7 @@
 (ns spifax.app.driller
   (:require [sugot.lib :as l]
-            [sugot.world :as w])
+            [sugot.world :as w]
+            [spifax.lib])
   (:import [org.bukkit Material Sound]
            [org.bukkit.event.block Action]))
 
@@ -9,9 +10,6 @@
 (defn- driller-shovel? [item]
   (and (= (.getType item) Material/WOOD_SPADE)
        (= (l/get-display-name item) "Driller's Shovel")))
-
-(defn- use-driller-shovel [item]
-  (.setDurability item (inc (.getDurability item))))
 
 (defn- break-driller-shovel? [item]
   (< (.getMaxDurability Material/WOOD_SPADE) (.getDurability item)))
@@ -33,7 +31,7 @@
   (when (and (driller-shovel? item)
              (= action Action/RIGHT_CLICK_BLOCK))
     (when (sand-block? block)
-      (use-driller-shovel item)
+      (spifax.lib/inc-durability item)
       (when (break-driller-shovel? item)
         (l/consume-item player)
         (play-sound Sound/ENTITY_ITEM_BREAK))
