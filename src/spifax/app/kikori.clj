@@ -26,13 +26,13 @@
       (let [block (.getRelative base-block x y z)]
         (kikori block)))))
 
-(defn org.bukkit.event.player.PlayerInteractEvent* [item action block remove-item play-sound]
+(defn org.bukkit.event.player.PlayerInteractEvent* [item action block player play-sound]
   (when (and (kikori-axe? item)
              (= action Action/RIGHT_CLICK_BLOCK))
     (when (wood-block? block)
       (use-kikori-axe item)
       (when (break-kikori-axe? item)
-        (remove-item item)
+        (consume-item player)
         (play-sound Sound/ENTITY_ITEM_BREAK))
       (kikori block))))
 
@@ -41,7 +41,6 @@
     (.getItemInMainHand (.getInventory (.getPlayer event)))
     (.getAction event)
     (.getClickedBlock event)
-    (fn [item]
-      (.remove (.getInventory (.getPlayer event)) item))
+    (.getPlayer event)
     (fn [sound]
       (w/play-sound (.getLocation (.getPlayer event)) sound (float 1.0) (float 1.0)))))
