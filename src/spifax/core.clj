@@ -5,7 +5,7 @@
   (:require [sugot.core]
             [sugot.events]))
 
-(def already-started (ref false))
+(defonce already-started (ref false))
 
 (defn- register-all-events [plugin-manager]
   (prn 'register-all-events plugin-manager)
