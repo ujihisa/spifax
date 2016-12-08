@@ -17,7 +17,7 @@
   (< (.getMaxDurability Material/WOOD_AXE) (.getDurability item)))
 
 (defn- wood-block? [block]
-  (contains? #{Material/LOG Material/LOG_2} (.getType block)))
+  (contains? #{Material/LOG Material/LOG_2 Material/LEAVES Material/LEAVES_2} (.getType block)))
 
 (defn- kikori [base-block kikori-count]
   (when (and (< kikori-count kikori-max)
