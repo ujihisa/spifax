@@ -12,6 +12,7 @@
   (doseq [namespace* ['spifax.app.bonus-achievement
                       'spifax.app.bonus-boss
                       'spifax.app.chat
+                      'spifax.app.driller
                       'spifax.app.elytra-boost
                       'spifax.app.express-train
                       'spifax.app.gold
