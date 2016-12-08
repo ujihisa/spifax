@@ -32,7 +32,7 @@
     (when (wood-block? block)
       (use-kikori-axe item)
       (when (break-kikori-axe? item)
-        (consume-item player)
+        (l/consume-item player)
         (play-sound Sound/ENTITY_ITEM_BREAK))
       (kikori block))))
 
