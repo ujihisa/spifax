@@ -11,7 +11,7 @@
        (= (l/get-display-name item) "Kikori's Axe")))
 
 (defn- use-kikori-axe [item]
-  (.setDurability item (+ (.getDurability item) 1)))
+  (.setDurability item (inc (.getDurability item))))
 
 (defn- break-kikori-axe? [item]
   (< (.getMaxDurability Material/WOOD_AXE) (.getDurability item)))
@@ -27,7 +27,7 @@
             x [-1 0 1]
             z [-1 0 1]]
       (let [block (.getRelative base-block x y z)]
-        (kikori block (+ kikori-count 1))))))
+        (kikori block (inc kikori-count))))))
 
 (defn org.bukkit.event.player.PlayerInteractEvent* [item action block player play-sound]
   (when (and (kikori-axe? item)
