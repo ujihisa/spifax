@@ -9,21 +9,23 @@
 
 (defn- register-all-events [plugin-manager]
   (prn 'register-all-events plugin-manager)
-  (doseq [namespace* ['spifax.app.bonus-achievement
-                      'spifax.app.bonus-boss
-                      'spifax.app.chat
-                      'spifax.app.driller
-                      'spifax.app.elytra-boost
-                      'spifax.app.express-train
-                      'spifax.app.gold
-                      'spifax.app.hardcore
-                      'spifax.app.kikori
-                      'spifax.app.misc
-                      'spifax.app.moving-walkway
-                      'spifax.app.nap
-                      'spifax.app.pull-items
-                      'spifax.app.single-sleep
-                      'spifax.app.stack-items]
+  (doseq [namespace*
+          #_['spifax.app.chat]
+          ['spifax.app.bonus-achievement
+           'spifax.app.bonus-boss
+           'spifax.app.chat
+           'spifax.app.driller
+           'spifax.app.elytra-boost
+           'spifax.app.express-train
+           'spifax.app.gold
+           'spifax.app.hardcore
+           'spifax.app.kikori
+           'spifax.app.misc
+           'spifax.app.moving-walkway
+           'spifax.app.nap
+           'spifax.app.pull-items
+           'spifax.app.single-sleep
+           'spifax.app.stack-items]
           _ [(require namespace*)]
           klass [org.bukkit.event.block.BlockBreakEvent
                  org.bukkit.event.block.BlockPlaceEvent
